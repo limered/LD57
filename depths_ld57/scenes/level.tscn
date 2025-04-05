@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://src/MapGeneration/MapGenerator.cs" id="1_onjnx"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_cnfo6"]
-seed = 123
+seed = 126
 frequency = 0.015
 fractal_type = 2
-fractal_octaves = 4
+fractal_octaves = 2
 fractal_gain = 0.6
 domain_warp_frequency = 8.0
 domain_warp_fractal_type = 0
@@ -18,10 +18,12 @@ metadata/_preview_in_3d_space_ = true
 [node name="Node2D" type="Node2D"]
 position = Vector2(1, 0)
 script = ExtResource("1_onjnx")
+MapSize = Vector2i(512, 512)
 Noise = SubResource("FastNoiseLite_cnfo6")
-WallThreshold = 0.62
-Dilatate = false
+WallThreshold = 0.67
+Erode = true
 DilateKernelSize = 2
 ErodeKernelSize = 6
 
 [node name="MapPreview" type="Sprite2D" parent="."]
+position = Vector2(512, 512)

@@ -24,7 +24,6 @@ public partial class MapGenerator : Node
 	{
 		_mapSprite = GetNode<Sprite2D>("MapPreview");
 
-
 		_context = new MapGenerationContext
 		{
 			CurrentResultImage = Image.CreateEmpty(MapSize.X, MapSize.Y, false, Image.Format.Rf)
@@ -32,6 +31,7 @@ public partial class MapGenerator : Node
 		
 		_steps.Add(new BaseNoiseGenerationStep(MapSize, Noise));
 		_steps.Add(new ImageProcessingStep(MapSize));
+		_steps.Add(new BrainFormStep(MapSize));
 	}
 	
 	public override void _Process(double delta)
