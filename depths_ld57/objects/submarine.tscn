@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://8y0rhkcllrhf"]
+[gd_scene load_steps=8 format=3 uid="uid://8y0rhkcllrhf"]
 
 [ext_resource type="Script" path="res://objects/Submarine.cs" id="1_bx4ym"]
 [ext_resource type="Texture2D" uid="uid://dqopy7rxxapri" path="res://graphics/submarine1.png" id="2_6kmeq"]
 [ext_resource type="Texture2D" uid="uid://beqvu4arv5ide" path="res://graphics/submarine2.png" id="3_ujb6f"]
 [ext_resource type="Texture2D" uid="uid://cjc7efgfkor2r" path="res://graphics/submarine3.png" id="4_od5va"]
+[ext_resource type="PackedScene" uid="uid://dt1chpva5ld57" path="res://objects/Lazor.tscn" id="5_eb684"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mn6q3"]
 radius = 72.0
@@ -40,3 +41,6 @@ sprite_frames = SubResource("SpriteFrames_cnit1")
 autoplay = "default"
 frame = 1
 frame_progress = 0.149035
+
+[node name="Lazor" parent="." instance=ExtResource("5_eb684")]
+position = Vector2(-11, -65)

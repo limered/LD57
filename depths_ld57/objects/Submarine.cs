@@ -7,16 +7,20 @@ public partial class Submarine : RigidBody2D
 	public float Acceleration = 100f;
 
 	[Export]
-	public float WaterDrag {get => LinearDamp; set => LinearDamp = value; }
+	public float WaterDrag { get => LinearDamp; set => LinearDamp = value; }
+
+	private AnimatedSprite2D _sprite;
 
 	public override void _Ready()
 	{
-		
+		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
 	public override void _Process(double delta)
 	{
 		HandleMovement();
+		Mathf.Sign(LinearVelocity.X);
+		_sprite.FlipH = LinearVelocity.X > 0;
 	}
 
 	private void HandleMovement()
