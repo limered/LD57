@@ -1,19 +1,27 @@
 [gd_scene load_steps=3 format=3 uid="uid://5re0nmxpnd72"]
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_22n60"]
-noise_type = 2
-frequency = 0.04
-fractal_octaves = 2
-fractal_lacunarity = 4.0
-fractal_gain = 0.3
-cellular_distance_function = 1
-domain_warp_amplitude = 10.0
-domain_warp_fractal_type = 0
+[ext_resource type="Script" path="res://src/MapGeneration/MapGenerator.cs" id="1_onjnx"]
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hrxis"]
-noise = SubResource("FastNoiseLite_22n60")
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cnfo6"]
+seed = 123
+frequency = 0.015
+fractal_type = 2
+fractal_octaves = 4
+fractal_gain = 0.6
+domain_warp_frequency = 8.0
+domain_warp_fractal_type = 0
+domain_warp_fractal_octaves = 4
+domain_warp_fractal_lacunarity = 2.0
+domain_warp_fractal_gain = 0.6
+metadata/_preview_in_3d_space_ = true
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(1, 0)
+script = ExtResource("1_onjnx")
+Noise = SubResource("FastNoiseLite_cnfo6")
+WallThreshold = 0.62
+Dilatate = false
+DilateKernelSize = 2
+ErodeKernelSize = 6
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-texture = SubResource("NoiseTexture2D_hrxis")
+[node name="MapPreview" type="Sprite2D" parent="."]
