@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://5re0nmxpnd72"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_22n60"]
+noise_type = 2
+frequency = 0.04
+fractal_octaves = 2
+fractal_lacunarity = 4.0
+fractal_gain = 0.3
+cellular_distance_function = 1
+domain_warp_amplitude = 10.0
+domain_warp_fractal_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_hrxis"]
+noise = SubResource("FastNoiseLite_22n60")
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+texture = SubResource("NoiseTexture2D_hrxis")
