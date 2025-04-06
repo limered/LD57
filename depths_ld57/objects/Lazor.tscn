@@ -1,12 +1,78 @@
-[gd_scene load_steps=2 format=3 uid="uid://dt1chpva5ld57"]
+[gd_scene load_steps=9 format=3 uid="uid://dt1chpva5ld57"]
 
+[ext_resource type="Script" path="res://objects/Lazor.cs" id="1_fg2dl"]
+[ext_resource type="Script" path="res://objects/LazorRaycast.cs" id="1_ic4qp"]
 [ext_resource type="Texture2D" uid="uid://jobj528hi1b4" path="res://graphics/lazor.png" id="1_v8tei"]
+[ext_resource type="Texture2D" uid="uid://cccnrsfisiotv" path="res://graphics/lazor_particle.png" id="4_sm1dj"]
+[ext_resource type="Shader" path="res://objects/Lazor.gdshader" id="4_wl52o"]
+[ext_resource type="Texture2D" uid="uid://bse3r3hyutn8m" path="res://graphics/lazor_beam.png" id="5_b1q2g"]
 
-[node name="Lazor" type="Node2D"]
+[sub_resource type="Curve" id="Curve_60v8e"]
+_data = [Vector2(0, 0.123355), 0.0, 0.0, 0, 0, Vector2(0.484252, 0.305099), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w23pp"]
+shader = ExtResource("4_wl52o")
+shader_parameter/beams = 10
+shader_parameter/energy = 5.0
+shader_parameter/roughness = 5
+shader_parameter/frequency = 10
+shader_parameter/speed = 3.0
+shader_parameter/thickness = 0.04
+shader_parameter/outline_thickness = 0.011
+shader_parameter/beam_difference = 0.0
+shader_parameter/glow = 0.142
+shader_parameter/outline_glow = 0.402
+shader_parameter/color = Color(0.0901961, 0.372549, 0.827451, 1)
+shader_parameter/outline_color = Color(0.223529, 0.470588, 0.952941, 1)
+shader_parameter/progress = 1.0
+shader_parameter/y_offset = 0.0
+shader_parameter/fixed_edge_size = 0.05
+shader_parameter/noise_scale = Vector2(1, 1)
+
+[node name="Lazor" type="Node2D" node_paths=PackedStringArray("lazorCast", "lazorLine", "lazorEmitterParticles", "lazorBeamParticles")]
+script = ExtResource("1_fg2dl")
+lazorCast = NodePath("RayCast2D")
+lazorLine = NodePath("RayCast2D/Sprite2D")
+lazorEmitterParticles = NodePath("RayCast2D/EmitParticles2D")
+lazorBeamParticles = NodePath("RayCast2D/BeamParticles2D")
+lazorSpeed = 1.0
+LazorWidth = 3.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 3.14159
 scale = Vector2(0.175, 0.175)
 texture = ExtResource("1_v8tei")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(100, 0)
+script = ExtResource("1_ic4qp")
+
+[node name="BeamParticles2D" type="CPUParticles2D" parent="RayCast2D"]
+position = Vector2(50, 0)
+emitting = false
+texture = ExtResource("4_sm1dj")
+emission_shape = 3
+emission_rect_extents = Vector2(50, 10)
+gravity = Vector2(0, 0)
+initial_velocity_min = 14.6
+initial_velocity_max = 14.6
+linear_accel_max = 17.52
+radial_accel_max = 10.22
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_60v8e")
+
+[node name="EmitParticles2D" type="CPUParticles2D" parent="RayCast2D"]
+amount = 20
+texture = ExtResource("4_sm1dj")
+gravity = Vector2(0, 0)
+initial_velocity_max = 21.9
+linear_accel_max = 17.52
+radial_accel_max = 10.22
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_60v8e")
+
+[node name="Sprite2D" type="Sprite2D" parent="RayCast2D"]
+material = SubResource("ShaderMaterial_w23pp")
+texture = ExtResource("5_b1q2g")
+region_rect = Rect2(0, 0, 20, 10)

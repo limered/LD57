@@ -16,29 +16,29 @@ public partial class Submarine : RigidBody2D
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 	}
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
-		HandleMovement();
+		HandleMovement(delta);
 		Mathf.Sign(LinearVelocity.X);
 		_sprite.FlipH = LinearVelocity.X > 0;
 	}
 
-	private void HandleMovement()
+	private void HandleMovement(double delta)
 	{
 		var direction = Vector2.Zero;
-		if (Input.IsActionPressed("up"))
+		if (Input.IsActionPressed("move_up"))
 			direction += Vector2.Up;
-		if (Input.IsActionPressed("down"))
+		if (Input.IsActionPressed("move_down"))
 			direction += Vector2.Down;
-		if (Input.IsActionPressed("left"))
+		if (Input.IsActionPressed("move_left"))
 			direction += Vector2.Left;
-		if (Input.IsActionPressed("right"))
+		if (Input.IsActionPressed("move_right"))
 			direction += Vector2.Right;
 
 		if (direction != Vector2.Zero)
 		{
 			direction = direction.Normalized();
-			ApplyForce(direction * Acceleration);
+			ApplyForce(direction * Acceleration * (float)delta);
 		}
 	}
 }

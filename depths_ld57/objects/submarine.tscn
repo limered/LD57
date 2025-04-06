@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://8y0rhkcllrhf"]
+[gd_scene load_steps=9 format=3 uid="uid://8y0rhkcllrhf"]
 
 [ext_resource type="Script" path="res://objects/Submarine.cs" id="1_bx4ym"]
 [ext_resource type="Texture2D" uid="uid://dqopy7rxxapri" path="res://graphics/submarine1.png" id="2_6kmeq"]
@@ -9,6 +9,8 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mn6q3"]
 radius = 72.0
 height = 244.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eyoe3"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cnit1"]
 animations = [{
@@ -37,6 +39,7 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_mn6q3")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_eyoe3")
 sprite_frames = SubResource("SpriteFrames_cnit1")
 autoplay = "default"
 frame = 1

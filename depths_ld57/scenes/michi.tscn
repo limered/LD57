@@ -8,3 +8,4 @@
 position = Vector2(407, 300)
 contact_monitor = true
 linear_damp = 1.0
+Acceleration = 50000.0
