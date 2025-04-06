@@ -1,3 +1,7 @@
-[gd_scene format=3 uid="uid://cmvqrg8c53mbr"]
+[gd_scene load_steps=2 format=3 uid="uid://cmvqrg8c53mbr"]
+
+[ext_resource type="PackedScene" uid="uid://bsa2kkcuws55f" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="DirtGenerator" parent="." instance=ExtResource("1_1x3bw")]

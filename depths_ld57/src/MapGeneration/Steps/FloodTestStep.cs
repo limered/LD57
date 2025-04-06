@@ -45,7 +45,10 @@ public class FloodTestStep : IMapGenerationStep
         foreach (var tuple in areaMap)
         {
             var area = areas[tuple.areaA];
-            ctx.FutureDirtPositions.AddRange(area.pixels);
+            if (area.pixels.Count > 100)
+            {
+                ctx.FutureDirtPositions.AddRange(area.pixels);
+            }
         }
         GD.Print(ctx.FutureDirtPositions.Count);
     }

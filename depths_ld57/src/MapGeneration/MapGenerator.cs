@@ -76,7 +76,7 @@ public partial class MapGenerator : Node
         
         EventBus.Emit(new MapGeneratedEvent());
         
-        _texture = ImageTexture.CreateFromImage(_context.DirtMap);
+        _texture = ImageTexture.CreateFromImage(_context.ColorMap);
         _mapSprite.Texture = _texture;
     }
 

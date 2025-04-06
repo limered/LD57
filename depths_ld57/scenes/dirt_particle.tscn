@@ -1,5 +1,8 @@
-[gd_scene format=3 uid="uid://dsva5kpqj1v03"]
+[gd_scene load_steps=2 format=3 uid="uid://dsva5kpqj1v03"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" path="res://src/Dirt/DirtParticle.cs" id="1_mjp87"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Dirt Particle" type="Node2D"]
+script = ExtResource("1_mjp87")
+
+[node name="Image" type="Sprite2D" parent="."]
