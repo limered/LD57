@@ -38,7 +38,7 @@ public partial class Submarine : RigidBody2D
 		if (direction != Vector2.Zero)
 		{
 			direction = direction.Normalized();
-			ApplyForce(direction * Acceleration * (float)delta);
+			ApplyCentralForce(direction * Acceleration * (float)delta);
 		}
 	}
 }

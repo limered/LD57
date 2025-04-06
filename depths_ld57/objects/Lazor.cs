@@ -43,7 +43,6 @@ public partial class Lazor : Node2D
 		{
 			firing = false;
 			lazorLine.Position = new Vector2(0, 0);
-			// lazorLine.Scale = new Vector2(0, 0);
 			return;
 		}
 		else
