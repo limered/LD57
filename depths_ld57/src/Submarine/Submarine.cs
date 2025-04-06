@@ -18,6 +18,11 @@ public partial class Submarine : RigidBody2D
 	[Export]
 	public float SubmarineLookahead { get; set; } = 10f;
 
+	public Vector2I GridPosition
+	{
+		get => new Vector2I((int)GlobalPosition.X + collisionChecker.width / 2, (int)GlobalPosition.Y + collisionChecker.height / 2);
+		set => GlobalPosition = new Vector2(value.X - collisionChecker.width / 2, value.Y - collisionChecker.height / 2);
+	}
 
 	private AnimatedSprite2D _sprite;
 
@@ -39,7 +44,7 @@ public partial class Submarine : RigidBody2D
 		var direction = HandleMovement(delta);
 
 		_sprite.FlipH = LinearVelocity.X > 0;
-		
+
 		if (WouldCollide(direction))
 		{
 			LinearVelocity = Vector2.Zero;
