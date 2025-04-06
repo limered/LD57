@@ -19,7 +19,7 @@ public partial class MapGenerator : Node
 	
 	private MapGenerationContext _context;
 	private readonly List<IMapGenerationStep> _steps = new();
-
+	
 	public override void _Ready()
 	{
 		_mapSprite = GetNode<Sprite2D>("MapPreview");
@@ -32,6 +32,7 @@ public partial class MapGenerator : Node
 		_steps.Add(new BaseNoiseGenerationStep(MapSize, Noise));
 		_steps.Add(new ImageProcessingStep(MapSize));
 		_steps.Add(new BrainFormStep(MapSize));
+		_steps.Add(new FloodTestStep(MapSize));
 	}
 	
 	public override void _Process(double delta)

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://src/MapGeneration/MapGenerator.cs" id="1_onjnx"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_cnfo6"]
-seed = 126
+seed = 123
 frequency = 0.015
 fractal_type = 2
 fractal_octaves = 2
