@@ -35,6 +35,7 @@ public partial class MapGenerator : Node
 		_steps.Add(new BrainFormStep(MapSize));
 		_steps.Add(new FloodTestStep(MapSize));
 		_steps.Add(new UpscaleStep(MapSize));
+		_steps.Add(new SplitMapStep(MapSize));
 	}
 	
 	public override void _Process(double delta)

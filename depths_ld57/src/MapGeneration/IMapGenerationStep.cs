@@ -12,6 +12,9 @@ public class MapGenerationContext
     public float UpscaleFactor = 8f;
     
     public Image WorkingImage;
+    public Image CollisionMap;
+    public Image ColorMap;
+    public Image DirtMap;
 }
 
 public interface IMapGenerationStep
