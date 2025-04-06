@@ -20,10 +20,6 @@ position = Vector2(1, 0)
 script = ExtResource("1_onjnx")
 MapSize = Vector2i(512, 512)
 Noise = SubResource("FastNoiseLite_cnfo6")
-WallThreshold = 0.67
-Erode = true
-DilateKernelSize = 2
-ErodeKernelSize = 6
 
 [node name="MapPreview" type="Sprite2D" parent="."]
 position = Vector2(512, 512)
