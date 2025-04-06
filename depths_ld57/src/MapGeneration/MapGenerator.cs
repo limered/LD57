@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using depths_ld57.MapGeneration.Steps;
+using depths_ld57.Utils;
 using Godot;
 
 namespace depths_ld57.MapGeneration;
@@ -71,7 +72,9 @@ public partial class MapGenerator : Node
             GD.Print(step.GetType().Name + " done");
         }
         
-        _texture = ImageTexture.CreateFromImage(_context.ColorMap);
+        EventBus.Emit(new MapGeneratedEvent());
+        
+        _texture = ImageTexture.CreateFromImage(_context.DirtMap);
         _mapSprite.Texture = _texture;
     }
 

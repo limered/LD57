@@ -1,4 +1,5 @@
 using depths_ld57.MapGeneration;
+using depths_ld57.Utils;
 using Godot;
 
 namespace depths_ld57;
@@ -14,12 +15,12 @@ public partial class Game : Node2D
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
         GoToState(GameState.StartScreen);
         
-        _mapGenerator.OnProgressChanged += OnMapGenerationProgressChanged;
+        EventBus.Register<MapGeneratedEvent>(_ => OnMapGenerated());
     }
 
-    private void OnMapGenerationProgressChanged(float percent)
+    private void OnMapGenerated()
     {
-        GD.Print("Map Generation Percent: " + percent);
+        GoToState(GameState.Running);
     }
 
     public bool GoToState(GameState newState)
