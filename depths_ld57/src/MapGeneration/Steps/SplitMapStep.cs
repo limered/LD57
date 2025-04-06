@@ -32,7 +32,7 @@ public class SplitMapStep : IMapGenerationStep
         ctx.DirtMap.BlitRect(ctx.CollisionMap, new Rect2I(Vector2I.Zero, realMapSize), Vector2I.Zero);
         
         ctx.ColorMap = Image.CreateEmpty(realMapSize.X, realMapSize.Y, false, Image.Format.Rgbaf);
-        ctx.ColorMap.Fill(new Color("#FD91B8"));
+        ctx.ColorMap.Fill(Colors.Black);
         
         for(var y = 0; y < realMapSize.Y; y++)
         for (var x = 0; x < realMapSize.X; x++)
@@ -40,7 +40,7 @@ public class SplitMapStep : IMapGenerationStep
             var pixel = ctx.WorkingImage.GetPixel(x, y);
             if (pixel.R > 0.5f)
             {
-                ctx.ColorMap.SetPixel(x, y, new Color("#434343"));
+                ctx.ColorMap.SetPixel(x, y, Colors.White);
             }
         }
     }
