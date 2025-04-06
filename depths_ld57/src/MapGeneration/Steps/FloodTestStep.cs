@@ -76,7 +76,8 @@ public class FloodTestStep : IMapGenerationStep
             }
         }
         
-        areaMap = areaMap.GroupBy(pair => pair.areaA).SelectMany(grouping => grouping.Where(a => a.distance < 5)).ToList();
+        areaMap = areaMap.Where(a => a.distance < 5).ToList();
+        // areaMap = areaMap.GroupBy(pair => pair.areaA).SelectMany(grouping => grouping.Where(a => a.distance < 5)).ToList();
         
         CopyIntoFloodImage(ctx);
         
