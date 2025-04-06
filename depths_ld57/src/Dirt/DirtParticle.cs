@@ -6,15 +6,16 @@ public partial class DirtParticle : Area2D
 {
     [Export]
     public int Health = 10;
+    
+    [Export] public Sprite2D Sprite;
+    [Export] public CollisionShape2D Collider;
 
-    public Texture2D DirtTexture { set => GetNode<Sprite2D>("Image").Texture = value; }
+    public Texture2D DirtTexture { set => Sprite.Texture = value; }
 
     public override void _Ready()
     {
-        var image = GetNode<Sprite2D>("Image");
-        image.Rotation = GD.Randf() * 360f;
-        var collider = GetNode<CollisionShape2D>("CollisionShape2D");
-        (collider.Shape as CircleShape2D).Radius = (image.Texture.GetWidth() + image.Texture.GetHeight()) / 5f;
+        Sprite.Rotation = GD.Randf() * 360f;
+        ((CircleShape2D)Collider.Shape).Radius = (Sprite.Texture.GetWidth() + Sprite.Texture.GetHeight()) / 5f;
     }
 
     public void Damage()
