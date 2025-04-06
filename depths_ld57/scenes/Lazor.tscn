@@ -1,18 +1,18 @@
 [gd_scene load_steps=9 format=3 uid="uid://dt1chpva5ld57"]
 
-[ext_resource type="Script" path="res://objects/Lazor.cs" id="1_fg2dl"]
-[ext_resource type="Script" path="res://objects/LazorRaycast.cs" id="1_ic4qp"]
-[ext_resource type="Texture2D" uid="uid://jobj528hi1b4" path="res://graphics/lazor.png" id="1_v8tei"]
-[ext_resource type="Texture2D" uid="uid://cccnrsfisiotv" path="res://graphics/lazor_particle.png" id="4_sm1dj"]
-[ext_resource type="Shader" path="res://objects/Lazor.gdshader" id="4_wl52o"]
-[ext_resource type="Texture2D" uid="uid://bse3r3hyutn8m" path="res://graphics/lazor_beam.png" id="5_b1q2g"]
+[ext_resource type="Script" path="res://src/Submarine/Lazor/Lazor.cs" id="1_cktub"]
+[ext_resource type="Texture2D" uid="uid://jobj528hi1b4" path="res://graphics/lazor.png" id="2_melk0"]
+[ext_resource type="Script" path="res://src/Submarine/Lazor/LazorRaycast.cs" id="3_ens5w"]
+[ext_resource type="Texture2D" uid="uid://cccnrsfisiotv" path="res://graphics/lazor_particle.png" id="4_p2b6l"]
+[ext_resource type="Shader" path="res://src/Submarine/Lazor/Lazor.gdshader" id="5_mn0j0"]
+[ext_resource type="Texture2D" uid="uid://bse3r3hyutn8m" path="res://graphics/lazor_beam.png" id="6_x0wkv"]
 
 [sub_resource type="Curve" id="Curve_60v8e"]
 _data = [Vector2(0, 0.123355), 0.0, 0.0, 0, 0, Vector2(0.484252, 0.305099), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w23pp"]
-shader = ExtResource("4_wl52o")
+shader = ExtResource("5_mn0j0")
 shader_parameter/beams = 2
 shader_parameter/energy = 20.0
 shader_parameter/roughness = 5
@@ -31,7 +31,7 @@ shader_parameter/fixed_edge_size = 0.05
 shader_parameter/noise_scale = Vector2(1, 1)
 
 [node name="Lazor" type="Node2D" node_paths=PackedStringArray("lazorCast", "lazorLine", "lazorEmitterParticles", "lazorBeamParticles")]
-script = ExtResource("1_fg2dl")
+script = ExtResource("1_cktub")
 lazorCast = NodePath("RayCast2D")
 lazorLine = NodePath("RayCast2D/Sprite2D")
 lazorEmitterParticles = NodePath("RayCast2D/EmitParticles2D")
@@ -42,16 +42,16 @@ LazorLength = 200.0
 visible = false
 rotation = 3.14159
 scale = Vector2(0.175, 0.175)
-texture = ExtResource("1_v8tei")
+texture = ExtResource("2_melk0")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(100, 0)
-script = ExtResource("1_ic4qp")
+script = ExtResource("3_ens5w")
 
 [node name="BeamParticles2D" type="CPUParticles2D" parent="RayCast2D"]
 position = Vector2(50, 0)
 emitting = false
-texture = ExtResource("4_sm1dj")
+texture = ExtResource("4_p2b6l")
 emission_shape = 3
 emission_rect_extents = Vector2(50, 10)
 gravity = Vector2(0, 0)
@@ -65,7 +65,7 @@ scale_amount_curve = SubResource("Curve_60v8e")
 [node name="EmitParticles2D" type="CPUParticles2D" parent="RayCast2D"]
 emitting = false
 amount = 20
-texture = ExtResource("4_sm1dj")
+texture = ExtResource("4_p2b6l")
 gravity = Vector2(0, 0)
 initial_velocity_max = 21.9
 linear_accel_max = 17.52
@@ -76,5 +76,5 @@ scale_amount_curve = SubResource("Curve_60v8e")
 [node name="Sprite2D" type="Sprite2D" parent="RayCast2D"]
 visible = false
 material = SubResource("ShaderMaterial_w23pp")
-texture = ExtResource("5_b1q2g")
+texture = ExtResource("6_x0wkv")
 region_rect = Rect2(0, 0, 510, 35)

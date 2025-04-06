@@ -1,11 +1,11 @@
 [gd_scene load_steps=10 format=3 uid="uid://8y0rhkcllrhf"]
 
-[ext_resource type="Script" path="res://objects/Submarine.cs" id="1_bx4ym"]
+[ext_resource type="Script" path="res://src/Submarine/Submarine.cs" id="1_bx4ym"]
 [ext_resource type="Texture2D" uid="uid://dqopy7rxxapri" path="res://graphics/submarine1.png" id="2_6kmeq"]
 [ext_resource type="Texture2D" uid="uid://beqvu4arv5ide" path="res://graphics/submarine2.png" id="3_ujb6f"]
 [ext_resource type="Texture2D" uid="uid://cjc7efgfkor2r" path="res://graphics/submarine3.png" id="4_od5va"]
 [ext_resource type="Texture2D" uid="uid://t5n07d1ske85" path="res://graphics/submarine4.png" id="5_6dptu"]
-[ext_resource type="PackedScene" uid="uid://dt1chpva5ld57" path="res://objects/Lazor.tscn" id="5_eb684"]
+[ext_resource type="PackedScene" uid="uid://dt1chpva5ld57" path="res://scenes/Lazor.tscn" id="5_eb684"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_mn6q3"]
 radius = 72.0
@@ -34,20 +34,24 @@ animations = [{
 }]
 
 [node name="Submarine" type="RigidBody2D"]
+mass = 10.0
 script = ExtResource("1_bx4ym")
 Acceleration = 1000.0
 WaterDrag = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.999999, 8)
 rotation = 1.5708
+scale = Vector2(0.148352, 0.175439)
 shape = SubResource("CapsuleShape2D_mn6q3")
 
 [node name="Lazor" parent="." instance=ExtResource("5_eb684")]
-position = Vector2(0, -36)
+position = Vector2(0, -7)
 LazorLength = 500.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_eyoe3")
+scale = Vector2(0.205556, 0.205556)
 sprite_frames = SubResource("SpriteFrames_cnit1")
 autoplay = "default"
 frame = 3

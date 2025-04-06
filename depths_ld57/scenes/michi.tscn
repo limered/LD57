@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d3vm2af57j27e"]
 
-[ext_resource type="PackedScene" uid="uid://8y0rhkcllrhf" path="res://objects/submarine.tscn" id="1_gp8g5"]
+[ext_resource type="PackedScene" uid="uid://8y0rhkcllrhf" path="res://scenes/submarine.tscn" id="1_gp8g5"]
 
 [node name="Michi" type="Node2D"]
 

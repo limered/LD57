@@ -1,3 +1,6 @@
+using depths_ld57;
+using depths_ld57.MapGeneration;
+using depths_ld57.Utils;
 using Godot;
 using System;
 
@@ -11,9 +14,15 @@ public partial class Submarine : RigidBody2D
 
 	private AnimatedSprite2D _sprite;
 
+	private Image collisionMap;
+
 	public override void _Ready()
 	{
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		EventBus.Register<MapGeneratedEvent>((evt) => {
+			var mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
+			collisionMap = mapGenerator.CollisionMap;
+		});
 	}
 
 	public override void _PhysicsProcess(double delta)
