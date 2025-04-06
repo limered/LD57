@@ -86,6 +86,21 @@ public partial class Submarine : RigidBody2D
 		}
 		return direction;
 	}
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventKey key)
+		{
+			if (key.IsReleased() && key.Keycode == Key.R)
+			{
+				GridPosition = new Vector2I(
+					GD.RandRange(1, 2047),
+					GD.RandRange(1, 2047)
+				);
+			}
+		}
+	}
+
 }
 
 
