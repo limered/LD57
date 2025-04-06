@@ -13,6 +13,7 @@ public partial class MapGenerator : Node
 	[Export] public bool Erode = false;
 	[Export] public int DilateKernelSize = 4; 
 	[Export] public int ErodeKernelSize = 4; 
+	[Export] public float UpscaleFactor = 8f;
 	
 	private Sprite2D _mapSprite;
 	private Texture2D _texture;
@@ -33,6 +34,7 @@ public partial class MapGenerator : Node
 		_steps.Add(new ImageProcessingStep(MapSize));
 		_steps.Add(new BrainFormStep(MapSize));
 		_steps.Add(new FloodTestStep(MapSize));
+		_steps.Add(new UpscaleStep(MapSize));
 	}
 	
 	public override void _Process(double delta)
@@ -42,6 +44,7 @@ public partial class MapGenerator : Node
 		_context.WallThreshold = WallThreshold;
 		_context.DilationKernel = DilateKernelSize;
 		_context.ErosionKernel = ErodeKernelSize;
+		_context.UpscaleFactor = UpscaleFactor;
 		
 		if(Input.IsKeyPressed(Key.G))
 		{

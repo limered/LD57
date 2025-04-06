@@ -9,6 +9,7 @@ public class MapGenerationContext
     public int DilationKernel;
     public int ErosionKernel;
     public float WallThreshold;
+    public float UpscaleFactor = 8f;
     
     public Image WorkingImage;
 }

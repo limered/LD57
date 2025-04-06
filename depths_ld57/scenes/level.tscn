@@ -27,3 +27,4 @@ ErodeKernelSize = 6
 
 [node name="MapPreview" type="Sprite2D" parent="."]
 position = Vector2(512, 512)
+scale = Vector2(0.25, 0.25)
