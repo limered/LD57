@@ -29,7 +29,7 @@ public class SplitMapStep : IMapGenerationStep
         }
 
         ctx.DirtMap = Image.CreateEmpty(realMapSize.X, realMapSize.Y, false, Image.Format.Rgbaf);
-        ctx.DirtMap.BlitRect(ctx.ColorMap, new Rect2I(Vector2I.Zero, realMapSize), Vector2I.Zero);
+        ctx.DirtMap.BlitRect(ctx.CollisionMap, new Rect2I(Vector2I.Zero, realMapSize), Vector2I.Zero);
         
         ctx.ColorMap = Image.CreateEmpty(realMapSize.X, realMapSize.Y, false, Image.Format.Rgbaf);
         ctx.ColorMap.Fill(Colors.White);

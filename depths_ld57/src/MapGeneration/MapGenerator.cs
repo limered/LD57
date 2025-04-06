@@ -30,7 +30,7 @@ public partial class MapGenerator : Node
     
     public override void _Ready()
     {
-        _mapSprite = GetNode<Sprite2D>("MapPreview");
+        _mapSprite = GetNode<Sprite2D>("WorldView");
 
         Noise.NoiseType = FastNoiseLite.NoiseTypeEnum.SimplexSmooth;
         Noise.Frequency = 0.015f;
@@ -70,6 +70,9 @@ public partial class MapGenerator : Node
             OnProgressChanged?.Invoke(i/(_steps.Count - 1f));
             GD.Print(step.GetType().Name + " done");
         }
+        
+        _texture = ImageTexture.CreateFromImage(_context.ColorMap);
+        _mapSprite.Texture = _texture;
     }
 
     public override void _Process(double delta)
