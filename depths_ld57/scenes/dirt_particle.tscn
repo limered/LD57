@@ -1,8 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsva5kpqj1v03"]
+[gd_scene load_steps=5 format=3 uid="uid://dsva5kpqj1v03"]
 
 [ext_resource type="Script" path="res://src/Dirt/DirtParticle.cs" id="1_mjp87"]
+[ext_resource type="Texture2D" uid="uid://db4s4ln36f5jx" path="res://graphics/microplastic/microplastic_1_3.png" id="2_7ngwe"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b8pwr"]
+
+[sub_resource type="Curve" id="Curve_m1ojm"]
+_data = [Vector2(0, 0.0218446), 0.0, 0.0, 0, 0, Vector2(0.5, 0.0849514), -0.122457, -0.122457, 0, 0, Vector2(0.98773, 0.0770631), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [node name="Dirt Particle" type="Area2D" node_paths=PackedStringArray("Sprite", "Collider")]
 script = ExtResource("1_mjp87")
@@ -13,3 +18,31 @@ Collider = NodePath("CollisionShape2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_b8pwr")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+randomness = 0.71
+lifetime_randomness = 0.45
+texture = ExtResource("2_7ngwe")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 201.11
+angular_velocity_min = -89.26
+angular_velocity_max = 45.9
+orbit_velocity_min = 0.1
+orbit_velocity_max = 0.5
+linear_accel_min = 4.63
+linear_accel_max = 31.21
+radial_accel_min = -31.21
+radial_accel_max = 26.59
+tangential_accel_min = 12.72
+tangential_accel_max = 80.93
+damping_min = 3.468
+damping_max = 100.0
+angle_min = -133.2
+angle_max = 183.1
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_m1ojm")
