@@ -47,7 +47,6 @@ shape = SubResource("CapsuleShape2D_mn6q3")
 
 [node name="Lazor" parent="." instance=ExtResource("5_eb684")]
 position = Vector2(0, -7)
-LazorLength = 500.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_eyoe3")
