@@ -11,6 +11,7 @@
 [node name="Submarine" parent="." instance=ExtResource("2_0mil4")]
 mass = 5.0
 Acceleration = 50000.0
+SubmarineLookahead = 0.0
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("Target")]
 script = ExtResource("3_y8mju")

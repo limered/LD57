@@ -12,7 +12,8 @@ public partial class Submarine : RigidBody2D
 	[Export]
 	public float WaterDrag { get => LinearDamp; set => LinearDamp = value; }
 
-	public float SubmarineRadius { get; private set; }
+	[Export]
+	public float SubmarineRadius { get; set; } = 10;
 
 	[Export]
 	public float SubmarineLookahead { get; set; } = 10f;
@@ -31,29 +32,35 @@ public partial class Submarine : RigidBody2D
 			var mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
 			collisionChecker = new(mapGenerator.CollisionMap);
 		});
-		var capsule = (CapsuleShape2D)GetNode<CollisionShape2D>("CollisionShape2D").Shape;
-		SubmarineRadius = (capsule.Radius + capsule.Height) / 2f;
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
 		var direction = HandleMovement(delta);
-		Mathf.Sign(LinearVelocity.X);
+
 		_sprite.FlipH = LinearVelocity.X > 0;
-		HandleCollision(direction);
+		
+		if (WouldCollide(direction) && direction != Vector2.Zero)
+		{
+			LinearVelocity = Vector2.Zero;
+		}
+		else
+		{
+			ApplyCentralForce(direction * Acceleration * (float)delta);
+		}
 	}
 
-	private void HandleCollision(Vector2 moveDirection)
+	private bool WouldCollide(Vector2 moveDirection)
 	{
 		if (collisionChecker == null)
-			return;
-		if (moveDirection == Vector2.Zero) return;
+			return false;
+		if (moveDirection == Vector2.Zero) return false;
 
 		if (collisionChecker.IsCollision(GlobalPosition + moveDirection * (SubmarineRadius + SubmarineLookahead)))
 		{
-			LinearVelocity = Vector2.Zero;
-			GD.Print("Collision detected with wall");
+			return true;
 		}
+		return false;
 	}
 
 	private Vector2 HandleMovement(double delta)
@@ -71,7 +78,6 @@ public partial class Submarine : RigidBody2D
 		if (direction != Vector2.Zero)
 		{
 			direction = direction.Normalized();
-			ApplyCentralForce(direction * Acceleration * (float)delta);
 		}
 		return direction;
 	}
@@ -96,7 +102,7 @@ public class CollisionChecker
 			return true;
 
 		var pixel = collisionMap.GetPixel((int)position.X + width / 2, (int)position.Y + height / 2);
-		return pixel == new Color(0, 0, 0, 0);
+		return pixel.R > 0.5f;
 	}
 
 }
