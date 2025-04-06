@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using depths_ld57.MapGeneration.Steps;
 using Godot;
 
@@ -75,8 +74,6 @@ public partial class MapGenerator : Node
 
     public override void _Process(double delta)
     {
-        if (Input.IsKeyPressed(Key.G)) GenerateMap();
-
         if (Input.IsKeyPressed(Key.K))
         {
             _texture = ImageTexture.CreateFromImage(_context.WorkingImage);
