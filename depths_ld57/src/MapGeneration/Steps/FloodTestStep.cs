@@ -26,6 +26,8 @@ public class FloodTestStep : IMapGenerationStep
         var areaMap = CalculateAreaToAreaDistances(areasSortedBySize, areas);
         areaMap = areaMap.Where(a => a.distance < 5).ToList();
 
+        CollectDirtSpawnPoints(areaMap, areas, ctx);
+        
         GenerateDoorsBetweenAreas(areaMap, areas, ctx.WorkingImage);
 
         CopyIntoFloodImage(ctx);
@@ -33,6 +35,19 @@ public class FloodTestStep : IMapGenerationStep
         ColorArea(areasSortedBySize.First().start, _floodImage, _mapSize);
 
         ctx.WorkingImage = _floodImage;
+    }
+
+    private void CollectDirtSpawnPoints(
+        List<(int areaA, int areaB, int pixelA, int pixelB, int distance)> areaMap, 
+        List<(Vector2I start, List<Vector2I> pixels)> areas, 
+        MapGenerationContext ctx)
+    {
+        foreach (var tuple in areaMap)
+        {
+            var area = areas[tuple.areaA];
+            ctx.FutureDirtPositions.AddRange(area.pixels);
+        }
+        GD.Print(ctx.FutureDirtPositions.Count);
     }
 
     private List<(Vector2I start, List<Vector2I> pixels)> FillAllAreas()

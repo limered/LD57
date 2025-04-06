@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace depths_ld57.MapGeneration;
@@ -15,6 +16,12 @@ public class MapGenerationContext
     public Image CollisionMap;
     public Image ColorMap;
     public Image DirtMap;
+
+    public int DirtParticleRadius = 10;
+    public float DirtParticleSpeed = 1.5f;
+    public float DirtParticleCount = 10000;
+    public readonly List<Vector2I> FutureDirtPositions = new();
+    public List<Vector2I> DirtParticles;
 }
 
 public interface IMapGenerationStep

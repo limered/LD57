@@ -26,6 +26,7 @@ public partial class MapGenerator : Node
     public Image CollisionMap => _context.CollisionMap;
     public Image ColorMap => _context.ColorMap;
     public Image DirtMap => _context.DirtMap;
+    public List<Vector2I> ParticlePositions => _context.DirtParticles;
 
     public Action<float> OnProgressChanged;
     
@@ -53,6 +54,7 @@ public partial class MapGenerator : Node
         _steps.Add(new FloodTestStep(MapSize));
         _steps.Add(new UpscaleStep(MapSize));
         _steps.Add(new SplitMapStep(MapSize));
+        _steps.Add(new AddDirtStep(MapSize));
     }
 
     public void GenerateMap()
