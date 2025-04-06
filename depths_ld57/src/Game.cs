@@ -1,3 +1,4 @@
+using System.Threading;
 using depths_ld57.MapGeneration;
 using depths_ld57.Utils;
 using Godot;
@@ -17,6 +18,8 @@ public partial class Game : Node2D
         
         EventBus.Register<MapGeneratedEvent>(_ => OnMapGenerated());
     }
+
+    private bool _mapGenerated = false;
 
     private void OnMapGenerated()
     {
@@ -39,7 +42,12 @@ public partial class Game : Node2D
                 break;
             case GameState.MapGeneration:
                 GD.Print("Map Generation");
-                _mapGenerator.GenerateMap();
+                var generationThread = new Thread(_ =>
+                {
+                    _mapGenerator.GenerateMap();
+                    _mapGenerated = true;
+                });
+                generationThread.Start();
                 break;
             case GameState.Running:
                 var ui2 = GetNode<Control>("/root/Node2D2/Interface");
@@ -61,6 +69,11 @@ public partial class Game : Node2D
 
     public override void _Process(double delta)
     {
+        if (State == GameState.MapGeneration && _mapGenerated)
+        {
+            EventBus.Emit(new MapGeneratedEvent());
+        }
+        
         if (Input.IsKeyPressed(Key.N))
         {
             if(State == GameState.GameOver)

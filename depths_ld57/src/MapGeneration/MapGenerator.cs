@@ -55,6 +55,11 @@ public partial class MapGenerator : Node
         _steps.Add(new UpscaleStep(MapSize));
         _steps.Add(new SplitMapStep(MapSize));
         _steps.Add(new AddDirtStep(MapSize));
+        
+        EventBus.Register<MapGeneratedEvent>(_ => { 
+            _texture = ImageTexture.CreateFromImage(_context.ColorMap);
+            _mapSprite.Texture = _texture;
+        });
     }
 
     public void GenerateMap()
@@ -72,20 +77,6 @@ public partial class MapGenerator : Node
             step.Generate(_context);
             OnProgressChanged?.Invoke(i/(_steps.Count - 1f));
             GD.Print(step.GetType().Name + " done");
-        }
-        
-        EventBus.Emit(new MapGeneratedEvent());
-        
-        _texture = ImageTexture.CreateFromImage(_context.ColorMap);
-        _mapSprite.Texture = _texture;
-    }
-
-    public override void _Process(double delta)
-    {
-        if (Input.IsKeyPressed(Key.K))
-        {
-            _texture = ImageTexture.CreateFromImage(_context.WorkingImage);
-            _mapSprite.Texture = _texture;
         }
     }
 }
