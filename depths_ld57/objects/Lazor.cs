@@ -16,17 +16,19 @@ public partial class Lazor : Node2D
 	private CpuParticles2D lazorBeamParticles;
 
 	[Export]
-	private float lazorSpeed = 100f;
+	private float lazorSpeed = 0.2f;
 
 	[Export]
-	public float LazorWidth { get; set; } = 5f;
+	public float LazorWidth { get; set; } = 50f;
 
 	[Export]
-	public float LazorLength { get; set; } = 300f;
-
+	public float LazorLength { get; set; } = 500f;
 
 	private Vector2 direction = Vector2.Zero;
 	private bool firing = false;
+
+	private const float LazorSpriteWidth = 100f;
+	private const float LazorSpriteHeight = 24f;
 
 	public override void _Ready()
 	{
@@ -41,6 +43,7 @@ public partial class Lazor : Node2D
 		{
 			firing = false;
 			lazorLine.Position = new Vector2(0, 0);
+			// lazorLine.Scale = new Vector2(0, 0);
 			return;
 		}
 		else
@@ -48,10 +51,10 @@ public partial class Lazor : Node2D
 			firing = true;
 			lazorCast.TargetPosition = direction * LazorLength;
 			lazorCast.ForceRaycastUpdate();
-			
+
 			lazorEmitterParticles.Rotation = direction.Angle();
 
-			lazorLine.Position = lazorCast.TargetPosition * 0.8f;
+			lazorLine.Position = direction * LazorLength / 2;
 			lazorLine.Rotation = direction.Angle();
 
 			lazorBeamParticles.Rotation = direction.Angle();
@@ -65,7 +68,12 @@ public partial class Lazor : Node2D
 		var tween = GetTree().CreateTween();
 		tween.SetEase(Tween.EaseType.In);
 		tween.TweenProperty(lazorLine, "scale",
-			new Vector2(1, enabled ? LazorWidth : 0f),
+			new Vector2(
+				LazorLength / LazorSpriteWidth , 
+				enabled
+					? LazorWidth / LazorSpriteHeight
+					: 0f
+			),
 			enabled ? lazorSpeed : lazorSpeed / 2
 		);
 
