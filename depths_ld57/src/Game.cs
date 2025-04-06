@@ -25,17 +25,28 @@ public partial class Game : Node2D
 
     public bool GoToState(GameState newState)
     {
+        if (State == newState) return false;
         State = newState;
         switch (State)
         {
             case GameState.StartScreen:
                 GD.Print("Start Screen");
+                var ui1 = GetNode<Control>("/root/Node2D2/Interface");
+                if (ui1 is not null)
+                {
+                    ui1.SetVisible(true);
+                }
                 break;
             case GameState.MapGeneration:
                 GD.Print("Map Generation");
                 _mapGenerator.GenerateMap();
                 break;
             case GameState.Running:
+                var ui2 = GetNode<Control>("/root/Node2D2/Interface");
+                if (ui2 is not null)
+                {
+                    ui2.SetVisible(false);
+                }
                 GD.Print("Running");
                 break;
             case GameState.Paused:
