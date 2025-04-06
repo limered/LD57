@@ -11,7 +11,7 @@ public static class ImageProcessing
         var width = sourceImage.GetWidth();
         var height = sourceImage.GetHeight();
 
-        dilatedImage.SetData(width, height, false, Image.Format.Rf, sourceImage.GetData());
+        dilatedImage.SetData(width, height, false, Image.Format.Rgbaf, sourceImage.GetData());
 
         for (var y = 0; y < height; y++)
         {
@@ -47,7 +47,7 @@ public static class ImageProcessing
         var width = sourceImage.GetWidth();
         var height = sourceImage.GetHeight();
         
-        erodedImage.SetData(width, height, false, Image.Format.Rf, sourceImage.GetData());
+        erodedImage.SetData(width, height, false, Image.Format.Rgbaf, sourceImage.GetData());
 
         for (var y = 0; y < height; y++)
         {

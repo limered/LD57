@@ -13,8 +13,8 @@ public class ImageProcessingStep : IMapGenerationStep
     {
         _mapSize = mapSize;
 
-        _dilatedImage = Image.CreateEmpty(_mapSize.X, _mapSize.Y, false, Image.Format.Rf);
-        _erodedImage = Image.CreateEmpty(_mapSize.X, _mapSize.Y, false, Image.Format.Rf);
+        _dilatedImage = Image.CreateEmpty(_mapSize.X, _mapSize.Y, false, Image.Format.Rgbaf);
+        _erodedImage = Image.CreateEmpty(_mapSize.X, _mapSize.Y, false, Image.Format.Rgbaf);
     }
 
     public void Generate(MapGenerationContext ctx)
@@ -25,19 +25,19 @@ public class ImageProcessingStep : IMapGenerationStep
 
     private void ApplyTransformation(MapGenerationContext ctx)
     {
-        if (ctx.Dilated) ImageProcessing.Dilate(_dilatedImage, ctx.CurrentResultImage, ctx.DilationKernel);
-        if (ctx.Eroded && !ctx.Dilated) ImageProcessing.Erode(_erodedImage, ctx.CurrentResultImage, ctx.ErosionKernel);
+        if (ctx.Dilated) ImageProcessing.Dilate(_dilatedImage, ctx.WorkingImage, ctx.DilationKernel);
+        if (ctx.Eroded && !ctx.Dilated) ImageProcessing.Erode(_erodedImage, ctx.WorkingImage, ctx.ErosionKernel);
         if (ctx.Eroded && ctx.Dilated) ImageProcessing.Erode(_erodedImage, _dilatedImage, ctx.ErosionKernel);
     }
 
     private void CopyToFinal(MapGenerationContext ctx)
     {
         if (ctx.Dilated && !ctx.Eroded)
-            ctx.CurrentResultImage
-                .SetData(_mapSize.X, _mapSize.Y, false, Image.Format.Rf, _dilatedImage.GetData());
+            ctx.WorkingImage
+                .SetData(_mapSize.X, _mapSize.Y, false, Image.Format.Rgbaf, _dilatedImage.GetData());
 
         if (ctx.Eroded)
-            ctx.CurrentResultImage
-                .SetData(_mapSize.X, _mapSize.Y, false, Image.Format.Rf, _erodedImage.GetData());
+            ctx.WorkingImage
+                .SetData(_mapSize.X, _mapSize.Y, false, Image.Format.Rgbaf, _erodedImage.GetData());
     }
 }

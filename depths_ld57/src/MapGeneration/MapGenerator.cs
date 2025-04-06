@@ -26,7 +26,7 @@ public partial class MapGenerator : Node
 
 		_context = new MapGenerationContext
 		{
-			CurrentResultImage = Image.CreateEmpty(MapSize.X, MapSize.Y, false, Image.Format.Rf)
+			WorkingImage = Image.CreateEmpty(MapSize.X, MapSize.Y, false, Image.Format.Rgbaf)
 		};
 		
 		_steps.Add(new BaseNoiseGenerationStep(MapSize, Noise));
@@ -49,7 +49,7 @@ public partial class MapGenerator : Node
 			{
 				step.Generate(_context);
 			}
-			_texture = ImageTexture.CreateFromImage(_context.CurrentResultImage);
+			_texture = ImageTexture.CreateFromImage(_context.WorkingImage);
 		}
 		
 		_mapSprite.Texture = _texture;

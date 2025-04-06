@@ -10,7 +10,7 @@ public class MapGenerationContext
     public int ErosionKernel;
     public float WallThreshold;
     
-    public Image CurrentResultImage;
+    public Image WorkingImage;
 }
 
 public interface IMapGenerationStep

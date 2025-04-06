@@ -31,7 +31,7 @@ public class BaseNoiseGenerationStep : IMapGenerationStep
                 var pixelColor = noiseImage.GetPixel(x, y);
                 var brightness = pixelColor.R;
 
-                ctx.CurrentResultImage
+                ctx.WorkingImage
                     .SetPixel(x, y, brightness > ctx.WallThreshold ? Colors.White : Colors.Black);
             }
         }

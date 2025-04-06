@@ -20,13 +20,13 @@ public class BrainFormStep : IMapGenerationStep
         var leftHalf = halfSize.X - eightSize.X - sixthSize.X;
         var rightHalf = halfSize.X + eightSize.X + sixthSize.X;
 
-        var mask = Image.CreateEmpty(_mapSize.X, _mapSize.Y, false, Image.Format.Rf);
+        var mask = Image.CreateEmpty(_mapSize.X, _mapSize.Y, false, Image.Format.Rgbaf);
         mask.Fill(new Color(1, 1, 1, 1));
 
         DrawMask(new Vector2I(leftHalf, halfSize.Y), _mapSize, mask);
         DrawMask(new Vector2I(rightHalf, halfSize.Y), _mapSize, mask);
         
-        ApplyMAsk(_mapSize, mask, ctx.CurrentResultImage);
+        ApplyMAsk(_mapSize, mask, ctx.WorkingImage);
     }
     
     private static void DrawMask(Vector2I position, Vector2I size, Image mask)
