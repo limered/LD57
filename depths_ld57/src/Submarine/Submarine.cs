@@ -108,10 +108,10 @@ public partial class Submarine : RigidBody2D
 	public bool IsStuck()
 	{
 		return collisionChecker.IsCollision(GlobalPosition)
-			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Right * SubmarineRadius)
-			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Down * SubmarineRadius)
-			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Left * SubmarineRadius)
-			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Up * SubmarineRadius);
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Right * SubmarineRadius / 2)
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Down * SubmarineRadius / 2)
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Left * SubmarineRadius / 2)
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Up * SubmarineRadius / 2);
 	}
 
 	private Vector2 HandleMovement(double delta)
