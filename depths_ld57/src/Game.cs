@@ -57,6 +57,7 @@ public partial class Game : Node2D
                 });
                 break;
             case GameState.Tutorial:
+                GD.Print("Tutorial");
                 _tutorial.Start();
                 break;
             case GameState.MapGeneration:
@@ -70,6 +71,7 @@ public partial class Game : Node2D
                 break;
             case GameState.GameOver:
                 GD.Print("Game Over");
+                _faceDive.PlayOutro();
                 break;
         }
         return true;
