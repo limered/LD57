@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://c52w4frk5c40g"]
+
+[ext_resource type="Texture2D" uid="uid://dayfubvat7o0s" path="res://graphics/tutorial_00.png" id="1_kda2s"]
+[ext_resource type="Script" path="res://src/Interface/Tutorial.cs" id="1_s7jjw"]
+[ext_resource type="Texture2D" uid="uid://dbjfrxg3os5el" path="res://graphics/tutorial_01.png" id="2_7acus"]
+[ext_resource type="Texture2D" uid="uid://cy06vxya332cx" path="res://graphics/tutorial_02.png" id="3_j6t0v"]
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_nonlv"]
+frames = 3
+speed_scale = 10.0
+frame_0/texture = ExtResource("1_kda2s")
+frame_1/texture = ExtResource("2_7acus")
+frame_1/duration = 1.0
+frame_2/texture = ExtResource("3_j6t0v")
+frame_2/duration = 1.0
+
+[node name="Tutorial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s7jjw")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AnimatedTexture_nonlv")
