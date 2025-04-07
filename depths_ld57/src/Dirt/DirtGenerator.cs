@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using depths_ld57.MapGeneration;
 using depths_ld57.Utils;
 using Godot;
@@ -16,6 +17,9 @@ public partial class DirtGenerator : Node
     private int _dirtParticleIndex;
     private bool _isGenerating;
     private List<Vector2I> _particlePositions;
+    private Vector2I _center;
+
+    private int _batchSize = 20;
 
     public override void _Ready()
     {
@@ -34,27 +38,31 @@ public partial class DirtGenerator : Node
 
     private void GenerateDirt()
     {
-        var center = new Vector2I(2048, 2048);
+        _center = new Vector2I(2048, 2048);
         _particlePositions = GetNode<MapGenerator>("/root/LevelGenerator").ParticlePositions;
-        _particlePositions = _particlePositions.OrderBy(p => p.DistanceSquaredTo(center)).ToList();
+        _particlePositions = _particlePositions.OrderBy(p => p.DistanceSquaredTo(_center)).ToList();
         _isGenerating = true;
     }
 
+    
     public override void _Process(double delta)
     {
-        if (Engine.GetFramesDrawn() % 4 != 0) return;
+        // if (Engine.GetFramesDrawn() % 4 != 0) return;
         if (_isGenerating && _dirtParticleIndex < _particlePositions.Count)
         {
-            for (var i = 0; i < 20 && _dirtParticleIndex < _particlePositions.Count; i++)
+            var node = new Node2D();
+            for (var i = 0; i < _batchSize && _dirtParticleIndex < _particlePositions.Count; i++)
             {
                 var position = _particlePositions[i + _dirtParticleIndex];
                 var particle = (DirtParticle)_dirtParticleScene.Instantiate();
                 particle.DirtTexture = _dirtParticles[(int)(GD.Randi() % _dirtParticles.Count)];
-                particle.GlobalPosition = position - new Vector2I(2048, 2048);
-                AddChild(particle);
+                particle.GlobalPosition = position - _center;
+                particle.SetProcess(false);
+                node.AddChild(particle);
             }
-
-            _dirtParticleIndex += 20;
+            
+            _dirtParticleIndex += _batchSize;
+            CallDeferred("add_child", node);
         }
     }
 }
