@@ -21,4 +21,3 @@ FollowDelay = 0.5
 FollowSpeed = 5.0
 
 [node name="Interface" parent="." instance=ExtResource("4_vrxt4")]
-visible = false
