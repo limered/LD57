@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cmvqrg8c53mbr"]
+[gd_scene load_steps=7 format=3 uid="uid://cmvqrg8c53mbr"]
 
-[ext_resource type="PackedScene" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
+[ext_resource type="PackedScene" uid="uid://bsa2kkcuws55f" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
 [ext_resource type="PackedScene" uid="uid://8y0rhkcllrhf" path="res://scenes/submarine.tscn" id="2_0mil4"]
 [ext_resource type="Script" path="res://src/Camera/Follow.cs" id="3_y8mju"]
 [ext_resource type="PackedScene" uid="uid://den6fm531ekmi" path="res://scenes/Interface.tscn" id="4_vrxt4"]
-[ext_resource type="PackedScene" uid="uid://dij04eoxydenh" path="res://scenes/face_dive.tscn" id="5_1q11q"]
+[ext_resource type="PackedScene" path="res://scenes/face_dive.tscn" id="5_1q11q"]
 [ext_resource type="PackedScene" uid="uid://c5187y7d8gjvu" path="res://scenes/IngameUI.tscn" id="5_7u1tj"]
 
 [node name="Main" type="Node2D"]
@@ -22,11 +22,9 @@ Target = NodePath("../Submarine")
 FollowDelay = 0.5
 FollowSpeed = 5.0
 
-[node name="Interface" parent="." node_paths=PackedStringArray("faceDive") instance=ExtResource("4_vrxt4")]
-faceDive = NodePath("../FaceDive")
 [node name="StartScreen" parent="Camera2D" instance=ExtResource("4_vrxt4")]
 
-[node name="FaceDive" parent="." instance=ExtResource("5_1q11q")]
+[node name="FaceDive" parent="Camera2D" instance=ExtResource("5_1q11q")]
 offset_left = -576.0
 offset_top = -324.0
 offset_right = -576.0

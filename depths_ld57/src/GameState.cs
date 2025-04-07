@@ -4,6 +4,7 @@ public enum GameState
 {
     None,
     StartScreen,
+    IntroAnimation,
     MapGeneration,
     Running,
     Paused,
