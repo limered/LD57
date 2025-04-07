@@ -12,11 +12,13 @@ public partial class Game : Node2D
     public GameState State { get; private set; }
     private Control _startScreen;
     private FaceDive _faceDive;
+    private Tutorial _tutorial;
     
     public override void _Ready()
     {
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
         _faceDive = GetNode<FaceDive>("/root/Main/Camera2D/FaceDive");
+        _tutorial = GetNode<Tutorial>("/root/Main/Camera2D/Tutorial");
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
         _generationThread = new Thread(_ =>
         {
@@ -51,8 +53,11 @@ public partial class Game : Node2D
                 GD.Print("Intro Animation");
                 _startScreen?.SetVisible(false);
                 _faceDive.PlayIntro(() => {
-                    GetNode<Game>("/root/Game").GoToState(GameState.MapGeneration);
+                    GetNode<Game>("/root/Game").GoToState(GameState.Tutorial);
                 });
+                break;
+            case GameState.Tutorial:
+                _tutorial.Start();
                 break;
             case GameState.MapGeneration:
                 GD.Print("Map Generation");

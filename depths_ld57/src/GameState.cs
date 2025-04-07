@@ -5,6 +5,7 @@ public enum GameState
     None,
     StartScreen,
     IntroAnimation,
+    Tutorial,
     MapGeneration,
     Running,
     Paused,
