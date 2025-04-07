@@ -1,4 +1,5 @@
 using System.Threading;
+using depths_ld57.Interface;
 using depths_ld57.MapGeneration;
 using depths_ld57.Utils;
 using Godot;
@@ -18,7 +19,7 @@ public partial class Game : Node2D
     {
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
         _faceDive = GetNode<FaceDive>("/root/Main/Camera2D/FaceDive");
-        _tutorial = GetNode<Interface.Tutorial>("/root/Main/Camera2D/Tutorial");
+        _tutorial = GetNode<Tutorial>("/root/Main/Camera2D/Tutorial");
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
         _generationThread = new Thread(_ =>
         {
@@ -26,6 +27,7 @@ public partial class Game : Node2D
             _mapGenerated = true;
         });
         
+        EventBus.Register<MapGeneratedEvent>(_ => OnMapGenerated());
 		_audio = GetNode<AudioStreamPlayer>("/root/Main/Audio/BackgroundAudio");
         GoToState(GameState.StartScreen);
     }
@@ -64,9 +66,10 @@ public partial class Game : Node2D
                 GD.Print("Map Generation");
                 break;
             case GameState.Running:
-                _tutorial.Hide();
                 GD.Print("Running");
+                _tutorial.Hide();
 				_audio.Play();
+                break;
             case GameState.Paused:
                 GD.Print("Paused");
                 break;

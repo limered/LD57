@@ -39,8 +39,8 @@ mass = 10.0
 script = ExtResource("1_bx4ym")
 Acceleration = 1000.0
 WaterDrag = 1.0
-_movementAudio = ExtResource("2_30bhp")
 _lazor = NodePath("Lazor")
+_movementAudio = ExtResource("2_30bhp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.999999, 8)
