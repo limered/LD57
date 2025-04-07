@@ -20,7 +20,7 @@ public class MapGenerationContext
     public int DirtParticleRadius = 10;
     public float DirtParticleSpeed = 1.5f;
     public float DirtParticleCount = 5000;
-    public readonly List<Vector2I> FutureDirtPositions = new();
+    public List<Vector2I> FutureDirtPositions = new();
     public List<Vector2I> DirtParticles;
 }
 
