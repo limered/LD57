@@ -45,9 +45,10 @@ public partial class Submarine : RigidBody2D
 
 		_sprite.FlipH = LinearVelocity.X > 0;
 
-		if (WouldCollide(direction))
+		if (WouldCollide(LinearVelocity.Normalized()))
 		{
-			LinearVelocity = Vector2.Zero;
+			LinearVelocity = -LinearVelocity * 0.5f;
+			ApplyCentralForce(-direction * Acceleration * (float)delta);
 		}
 		else
 		{
