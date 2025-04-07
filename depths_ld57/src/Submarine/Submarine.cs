@@ -17,6 +17,8 @@ public partial class Submarine : RigidBody2D
 
 	[Export]
 	public float SubmarineLookahead { get; set; } = 10f;
+
+	[Export] public Lazor _lazor;
 	
 	private AudioStreamPlayer _audio;
 	[Export] private AudioStream _movementAudio;
@@ -41,6 +43,29 @@ public partial class Submarine : RigidBody2D
 			var mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
 			collisionChecker = new(mapGenerator.CollisionMap);
 		});
+	}
+
+	public override void _Process(double delta)
+	{
+		if (_lazor.IsShooting)
+		{
+			Shake();
+			_sprite.Position = Vector2.Zero;
+		}
+	}
+	
+	private float _shakeAmount = 3.0f;
+	private float _shakeDuration = 0.042f;
+
+	private void Shake()
+	{
+		var tween = GetTree().CreateTween();
+		var randomOffset = new Vector2(
+			GD.Randf() * _shakeAmount * 2 - _shakeAmount,
+			GD.Randf() * _shakeAmount * 2 - _shakeAmount
+		);
+
+		tween.TweenProperty(_sprite, "position", randomOffset, _shakeDuration);
 	}
 
 	public override void _PhysicsProcess(double delta)

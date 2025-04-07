@@ -31,6 +31,8 @@ public partial class Lazor : Node2D
 	[Export]
 	public float MaxLazorLength { get; set; } = 1000f;
 
+	public bool IsShooting => firing;
+
 	private HashSet<DirtParticle> doingDamage = new();
 
 	private Vector2 direction = Vector2.Zero;
