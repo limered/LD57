@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 namespace depths_ld57.Utils;
 
@@ -11,6 +12,12 @@ public class TailRemoveList<T>
     {
         _list = new List<T>(length);
     }
+
+    public TailRemoveList(List<T> input)
+    {
+        _list = input;
+    }
+
     public void Add(T value)
     {
         _list.Add(value);

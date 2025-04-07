@@ -9,21 +9,24 @@ namespace depths_ld57.Dirt;
 
 public partial class DirtGenerator : Node
 {
+    [Export] public float LoadThreshold = 50; 
+    
     private PackedScene _dirtParticleScene = ResourceLoader
         .Load<PackedScene>("res://scenes/dirt_particle.tscn");
+    private Camera2D _camera;
 
     private readonly List<Texture2D> _dirtParticles = new();
     
     private int _dirtParticleIndex;
     private bool _isGenerating;
-    private List<Vector2I> _particlePositions;
+    private TailRemoveList<Vector2I> _particlePositions;
     private Vector2I _center;
 
     private int _batchSize = 20;
 
     public override void _Ready()
     {
-        EventBus.Register<MapGeneratedEvent>(_ => GenerateDirt());
+        EventBus.Register<MapGeneratedEvent>(_ => PrepareDirtGeneration());
         
         for(var i = 1; i <= 12; i++)
         {
@@ -34,35 +37,44 @@ public partial class DirtGenerator : Node
                 _dirtParticles.Add(dirtTexture);
             }
         }
+        
+        _camera = GetNode<Camera2D>("/root/Node2D2/Camera2D");
     }
 
-    private void GenerateDirt()
+    private void PrepareDirtGeneration()
     {
         _center = new Vector2I(2048, 2048);
-        _particlePositions = GetNode<MapGenerator>("/root/LevelGenerator").ParticlePositions;
-        _particlePositions = _particlePositions.OrderBy(p => p.DistanceSquaredTo(_center)).ToList();
+        var dirtPositions = GetNode<MapGenerator>("/root/LevelGenerator").ParticlePositions;
+        _particlePositions = new TailRemoveList<Vector2I>(dirtPositions
+            .OrderBy(p => p.DistanceSquaredTo(_center))
+            .ToList());
         _isGenerating = true;
     }
 
     
     public override void _Process(double delta)
     {
-        // if (Engine.GetFramesDrawn() % 4 != 0) return;
-        if (_isGenerating && _dirtParticleIndex < _particlePositions.Count)
+        if (!_isGenerating || _particlePositions is null || _particlePositions.Count == 0) return;
+        var rect = _camera.GetViewportRect();
+        var camPos = _camera.GlobalPosition;
+        rect.Position = camPos - rect.End / 2;
+        rect = rect.Grow(LoadThreshold);
+
+        var c = 0;
+        for (var i = _particlePositions.Count - 1; i >= 0; i--)
         {
-            var node = new Node2D();
-            for (var i = 0; i < _batchSize && _dirtParticleIndex < _particlePositions.Count; i++)
+            var pos = _particlePositions[i];
+            if (rect.HasPoint(pos - _center))
             {
-                var position = _particlePositions[i + _dirtParticleIndex];
+                
                 var particle = (DirtParticle)_dirtParticleScene.Instantiate();
                 particle.DirtTexture = _dirtParticles[(int)(GD.Randi() % _dirtParticles.Count)];
-                particle.GlobalPosition = position - _center;
+                particle.GlobalPosition = pos - _center;
                 particle.SetProcess(false);
-                node.AddChild(particle);
+                AddChild(particle);
+                _particlePositions.Remove(i);
+                if (c++ >= _batchSize) break;
             }
-            
-            _dirtParticleIndex += _batchSize;
-            CallDeferred("add_child", node);
         }
     }
 }
