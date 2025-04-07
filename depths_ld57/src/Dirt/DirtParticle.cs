@@ -10,8 +10,10 @@ public partial class DirtParticle : Area2D
     [Export] public Sprite2D Sprite;
     [Export] public CollisionShape2D Collider;
 
+    private PackedScene particleScene = ResourceLoader
+        .Load<PackedScene>("res://scenes/dirt_particle_explode.tscn");
+
     public Texture2D DirtTexture { set => Sprite.Texture = value; }
-    // private CpuParticles2D explodeParticles;
 
     private double disposeAfter = 2f;
 
@@ -34,7 +36,6 @@ public partial class DirtParticle : Area2D
                 QueueFree();
             }
         }
-
     }
 
     public void Damage()
@@ -44,9 +45,7 @@ public partial class DirtParticle : Area2D
         Health--;
         if (Health <= 0)
         {
-            CpuParticles2D explodeParticles = (CpuParticles2D)ResourceLoader
-                .Load<PackedScene>("res://scenes/dirt_particle_explode.tscn")
-                .Instantiate();
+            CpuParticles2D explodeParticles = (CpuParticles2D)particleScene.Instantiate();
             explodeParticles.Texture = Sprite.Texture;
             explodeParticles.Emitting = true;
             AddChild(explodeParticles);
