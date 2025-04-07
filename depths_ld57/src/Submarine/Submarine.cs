@@ -19,7 +19,7 @@ public partial class Submarine : RigidBody2D
 	public float SubmarineLookahead { get; set; } = 10f;
 
 	[Export] public Lazor _lazor;
-	
+
 	private AudioStreamPlayer _audio;
 	[Export] private AudioStream _movementAudio;
 
@@ -42,6 +42,13 @@ public partial class Submarine : RigidBody2D
 		{
 			var mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
 			collisionChecker = new(mapGenerator.CollisionMap);
+			while (IsStuck())
+			{
+				GridPosition = new Vector2I(
+					GD.RandRange(0, 2048),
+					GD.RandRange(0, 2048)
+				);
+			}
 		});
 	}
 
@@ -53,7 +60,7 @@ public partial class Submarine : RigidBody2D
 			_sprite.Position = Vector2.Zero;
 		}
 	}
-	
+
 	private float _shakeAmount = 3.0f;
 	private float _shakeDuration = 0.042f;
 
@@ -98,6 +105,15 @@ public partial class Submarine : RigidBody2D
 		return false;
 	}
 
+	public bool IsStuck()
+	{
+		return collisionChecker.IsCollision(GlobalPosition)
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Right * SubmarineRadius)
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Down * SubmarineRadius)
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Left * SubmarineRadius)
+			&& collisionChecker.IsCollision(GlobalPosition + Vector2.Up * SubmarineRadius);
+	}
+
 	private Vector2 HandleMovement(double delta)
 	{
 		var direction = Vector2.Zero;
@@ -114,7 +130,7 @@ public partial class Submarine : RigidBody2D
 		{
 			direction = direction.Normalized();
 		}
-		
+
 		return direction;
 	}
 
@@ -129,11 +145,12 @@ public partial class Submarine : RigidBody2D
 					GD.RandRange(1, 2047)
 				);
 			}
-			if(key.IsActionPressed("move_up") || 
-				key.IsActionPressed("move_down") || 
-				key.IsActionPressed("move_left") || 
+			if (key.IsActionPressed("move_up") ||
+				key.IsActionPressed("move_down") ||
+				key.IsActionPressed("move_left") ||
 				key.IsActionPressed("move_right")
-			) {
+			)
+			{
 				_audio.Stream = _movementAudio;
 				_audio.Play();
 			}
