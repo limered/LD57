@@ -10,7 +10,7 @@ void vertex() {
 
 void fragment() {
     // Screen distortion using noise and time
-    vec2 distorted_uv = SCREEN_UV;
+    vec2 distorted_uv = UV;
     distorted_uv.x += cos(TIME * 2.0 + SCREEN_UV.y * 20.0) * distortion_strength;
     distorted_uv.y += sin(TIME * 1.5 + SCREEN_UV.x * 15.0) * distortion_strength;
     
@@ -20,7 +20,7 @@ void fragment() {
     vec3 final_color = mix(screen_color, water_color.rgb, water_color.a * depth_factor);
     
     // Edge vignette effect
-    vec2 center = SCREEN_UV - 0.5;
+    vec2 center = UV - 0.5;
     float vignette = 1.0 - dot(center, center) * edge_vignette;
     final_color *= vignette;
     
