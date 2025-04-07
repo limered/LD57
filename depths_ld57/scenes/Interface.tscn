@@ -22,7 +22,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -576.0
 offset_top = -324.0
-offset_right = 575.0
+offset_right = 576.0
 offset_bottom = 324.0
 color = Color(0, 0, 0, 1)
 
