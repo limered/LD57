@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5187y7d8gjvu"]
+
+[ext_resource type="Script" path="res://src/Interface/InGameUiNode.cs" id="1_dcuui"]
+
+[node name="IngameUi" type="Control" node_paths=PackedStringArray("ScoreLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dcuui")
+ScoreLabel = NodePath("ScoreLabel")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 13.0
+offset_right = 53.0
+offset_bottom = 53.0
+scale = Vector2(4.92, 1)
+color = Color(0.262745, 0.262745, 0.262745, 1)
+
+[node name="ScoreLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 160.0
+offset_bottom = 43.0
+text = "Percent Done: 100.00%"

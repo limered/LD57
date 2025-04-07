@@ -10,9 +10,11 @@ public partial class Game : Node2D
    
     private MapGenerator _mapGenerator;
     public GameState State { get; private set; }
+    private Control _startScreen;
     
     public override void _Ready()
     {
+        _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
         _generationThread = new Thread(_ =>
         {
@@ -40,22 +42,14 @@ public partial class Game : Node2D
         {
             case GameState.StartScreen:
                 GD.Print("Start Screen");
-                var ui1 = GetNode<Control>("/root/Main/Interface");
-                if (ui1 is not null)
-                {
-                    ui1.SetVisible(true);
-                }
+                _startScreen?.SetVisible(true);
                 _generationThread.Start();
                 break;
             case GameState.MapGeneration:
                 GD.Print("Map Generation");
                 break;
             case GameState.Running:
-                var ui2 = GetNode<Control>("/root/Main/Interface");
-                if (ui2 is not null)
-                {
-                    ui2.SetVisible(false);
-                }
+                _startScreen?.SetVisible(false);
                 GD.Print("Running");
                 break;
             case GameState.Paused:

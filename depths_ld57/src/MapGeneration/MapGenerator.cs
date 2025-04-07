@@ -57,7 +57,7 @@ public partial class MapGenerator : Node
         _steps.Add(new AddDirtStep(MapSize));
         
         EventBus.Register<MapGeneratedEvent>(_ => { 
-            _texture = ImageTexture.CreateFromImage(_context.DirtMap);
+            _texture = ImageTexture.CreateFromImage(_context.ColorMap);
             _mapSprite.Texture = _texture;
         });
     }

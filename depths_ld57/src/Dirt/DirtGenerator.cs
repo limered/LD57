@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using depths_ld57.MapGeneration;
+using depths_ld57.Score;
 using depths_ld57.Utils;
 using Godot;
 
@@ -49,11 +50,16 @@ public partial class DirtGenerator : Node
             .OrderBy(p => p.DistanceSquaredTo(_center))
             .ToList());
         _isGenerating = true;
+        ScoreStore.DirtParticlesMax = dirtPositions.Count;
     }
 
     
     public override void _Process(double delta)
     {
+        ScoreStore.DirtParticlesLeft = (_particlePositions is null) ? 
+            0 : 
+            _particlePositions.Count + GetChildCount();
+        
         if (!_isGenerating || _particlePositions is null || _particlePositions.Count == 0) return;
         var rect = _camera.GetViewportRect();
         var camPos = _camera.GlobalPosition;

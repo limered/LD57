@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://src/Camera/Follow.cs" id="3_y8mju"]
 [ext_resource type="PackedScene" uid="uid://den6fm531ekmi" path="res://scenes/Interface.tscn" id="4_vrxt4"]
 [ext_resource type="PackedScene" uid="uid://dij04eoxydenh" path="res://scenes/face_dive.tscn" id="5_1q11q"]
+[ext_resource type="PackedScene" uid="uid://c5187y7d8gjvu" path="res://scenes/IngameUI.tscn" id="5_7u1tj"]
 
 [node name="Main" type="Node2D"]
 
@@ -23,8 +24,15 @@ FollowSpeed = 5.0
 
 [node name="Interface" parent="." node_paths=PackedStringArray("faceDive") instance=ExtResource("4_vrxt4")]
 faceDive = NodePath("../FaceDive")
+[node name="StartScreen" parent="Camera2D" instance=ExtResource("4_vrxt4")]
 
 [node name="FaceDive" parent="." instance=ExtResource("5_1q11q")]
+offset_left = -576.0
+offset_top = -324.0
+offset_right = -576.0
+offset_bottom = -324.0
+
+[node name="IngameUi" parent="Camera2D" instance=ExtResource("5_7u1tj")]
 offset_left = -576.0
 offset_top = -324.0
 offset_right = -576.0
