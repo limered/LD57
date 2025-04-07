@@ -44,7 +44,7 @@ public partial class DirtGenerator : Node
     {
         if (_isGenerating && _dirtParticleIndex < _particlePositions.Count)
         {
-            for (var i = 0; i < 5 && _dirtParticleIndex < _particlePositions.Count; i++)
+            for (var i = 0; i < 20 && _dirtParticleIndex < _particlePositions.Count; i++)
             {
                 var position = _particlePositions[i + _dirtParticleIndex];
                 var particle = (DirtParticle)_dirtParticleScene.Instantiate();
@@ -53,7 +53,7 @@ public partial class DirtGenerator : Node
                 AddChild(particle);
             }
 
-            _dirtParticleIndex += 5;
+            _dirtParticleIndex += 20;
         }
     }
 }
