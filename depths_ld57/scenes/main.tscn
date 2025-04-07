@@ -1,8 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://cmvqrg8c53mbr"]
+[gd_scene load_steps=9 format=3 uid="uid://cmvqrg8c53mbr"]
 
 [ext_resource type="PackedScene" uid="uid://bsa2kkcuws55f" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
 [ext_resource type="PackedScene" uid="uid://8y0rhkcllrhf" path="res://scenes/submarine.tscn" id="2_0mil4"]
-[ext_resource type="AudioStream" uid="uid://df2ux416lwkj1" path="res://sounds/bubbles_01.mp3" id="3_66bcc"]
 [ext_resource type="Script" path="res://src/Camera/Follow.cs" id="3_y8mju"]
 [ext_resource type="PackedScene" uid="uid://den6fm531ekmi" path="res://scenes/Interface.tscn" id="4_vrxt4"]
 [ext_resource type="PackedScene" uid="uid://dij04eoxydenh" path="res://scenes/face_dive.tscn" id="5_1q11q"]
@@ -18,7 +17,6 @@
 mass = 5.0
 Acceleration = 50000.0
 SubmarineLookahead = 0.0
-_movementAudio = ExtResource("3_66bcc")
 
 [node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("Target")]
 script = ExtResource("3_y8mju")

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/Submarine/Submarine.cs" id="1_bx4ym"]
 [ext_resource type="Texture2D" uid="uid://dqopy7rxxapri" path="res://graphics/submarine1.png" id="2_6kmeq"]
-[ext_resource type="AudioStream" uid="uid://b1s6gwoob2qat" path="res://sounds/bubbles_short.mp3" id="3_j1i7a"]
+[ext_resource type="AudioStream" uid="uid://dgdby00tr28x" path="res://sounds/submarine.wav" id="2_30bhp"]
 [ext_resource type="Texture2D" uid="uid://beqvu4arv5ide" path="res://graphics/submarine2.png" id="3_ujb6f"]
 [ext_resource type="Texture2D" uid="uid://cjc7efgfkor2r" path="res://graphics/submarine3.png" id="4_od5va"]
 [ext_resource type="Texture2D" uid="uid://t5n07d1ske85" path="res://graphics/submarine4.png" id="5_6dptu"]
@@ -39,6 +39,7 @@ mass = 10.0
 script = ExtResource("1_bx4ym")
 Acceleration = 1000.0
 WaterDrag = 1.0
+_movementAudio = ExtResource("2_30bhp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.999999, 8)
@@ -48,7 +49,6 @@ shape = SubResource("CapsuleShape2D_mn6q3")
 
 [node name="Lazor" parent="." instance=ExtResource("5_eb684")]
 position = Vector2(0, -7)
-_shootAudio = ExtResource("3_j1i7a")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_eyoe3")

@@ -42,11 +42,12 @@ public partial class Lazor : Node2D
 
 	private CollisionChecker collisionChecker;
 	
-	[Export] private AudioStream _shootAudio;
+	private AudioStreamPlayer _audio;
 
 	public override void _Ready()
 	{
 		lazorTip = (LazorTip)GetNode<Area2D>("LazorTip");
+		_audio = GetNode<AudioStreamPlayer>("../../Audio/LazorAudio");
 		EventBus.Register<MapGeneratedEvent>((evt) =>
 		{
 			var mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
@@ -68,6 +69,7 @@ public partial class Lazor : Node2D
 		else
 		{
 			firing = true;
+			_audio.Play();
 
 			lazorLine.Position = direction * LazorLength / 2;
 			lazorLine.Rotation = direction.Angle();
@@ -89,15 +91,15 @@ public partial class Lazor : Node2D
 		lazorTip.Collider.Disabled = !firing;
 	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
+	public override void _PhysicsProcess(double delta)
+	{
+		base._PhysicsProcess(delta);
 
 		foreach (var dirt in doingDamage)
 		{
 			dirt.Damage();
 		}
-    }
+	}
 
 
 	private void UpdateLazorLength()
