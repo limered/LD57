@@ -1,7 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bhi5342bo28gs"]
+[gd_scene load_steps=3 format=3 uid="uid://bhi5342bo28gs"]
 
 [ext_resource type="AudioStream" uid="uid://c7seebl2loh5e" path="res://sounds/title_song.mp3" id="1_ecfk7"]
+[ext_resource type="AudioStream" uid="uid://c4blefe4mh6wf" path="res://sounds/Scanglobe-Aqueduct.mp3" id="2_o1k6y"]
 
 [node name="Audio" type="AudioStreamPlayer"]
 stream = ExtResource("1_ecfk7")
 autoplay = true
+
+[node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_o1k6y")

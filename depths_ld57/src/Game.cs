@@ -13,7 +13,7 @@ public partial class Game : Node2D
     private Control _startScreen;
     private FaceDive _faceDive;
     private Tutorial _tutorial;
-    
+	private AudioStreamPlayer _audio;
     public override void _Ready()
     {
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
@@ -26,7 +26,7 @@ public partial class Game : Node2D
             _mapGenerated = true;
         });
         
-        EventBus.Register<MapGeneratedEvent>(_ => OnMapGenerated());
+		_audio = GetNode<AudioStreamPlayer>("/root/Main/Audio/BackgroundAudio");
         GoToState(GameState.StartScreen);
     }
 
@@ -65,7 +65,7 @@ public partial class Game : Node2D
                 break;
             case GameState.Running:
                 GD.Print("Running");
-                break;
+				_audio.Play();
             case GameState.Paused:
                 GD.Print("Paused");
                 break;
