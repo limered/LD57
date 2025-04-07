@@ -56,6 +56,8 @@ public partial class Lazor : Node2D
 	{
 		HandleLazorDirection();
 
+		UpdateLazorLength();
+
 		if (direction == Vector2.Zero)
 		{
 			firing = false;
@@ -64,8 +66,6 @@ public partial class Lazor : Node2D
 		else
 		{
 			firing = true;
-
-			UpdateLazorLength();
 
 			lazorLine.Position = direction * LazorLength / 2;
 			lazorLine.Rotation = direction.Angle();
@@ -103,6 +103,8 @@ public partial class Lazor : Node2D
 		if (collisionChecker == null)
 			return;
 		if (direction == Vector2.Zero)
+			return;
+		if (LazorLength <= 0)
 			return;
 
 		//extend lazor length until it hits a wall
