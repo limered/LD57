@@ -4,6 +4,9 @@ namespace depths_ld57.Interface;
 
 public partial class InterfaceNode : Control
 {
+    [Export]
+    public FaceDive faceDive;
+
     public override void _Ready()
     {
         var button = GetNode<TextureButton>("TextureButton");
@@ -11,8 +14,9 @@ public partial class InterfaceNode : Control
     }
 
     private void OnStartPressed()
-    {
-        GetNode<RichTextLabel>("RichTextLabel").SetVisible(true);
-        GetNode<Game>("/root/Game").GoToState(GameState.MapGeneration);
+    {        
+        faceDive.PlayIntro(() => {
+            GetNode<Game>("/root/Game").GoToState(GameState.MapGeneration);
+        });
     }
 }

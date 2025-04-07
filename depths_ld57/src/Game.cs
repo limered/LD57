@@ -40,7 +40,7 @@ public partial class Game : Node2D
         {
             case GameState.StartScreen:
                 GD.Print("Start Screen");
-                var ui1 = GetNode<Control>("/root/Node2D2/Interface");
+                var ui1 = GetNode<Control>("/root/Main/Interface");
                 if (ui1 is not null)
                 {
                     ui1.SetVisible(true);
@@ -51,7 +51,7 @@ public partial class Game : Node2D
                 GD.Print("Map Generation");
                 break;
             case GameState.Running:
-                var ui2 = GetNode<Control>("/root/Node2D2/Interface");
+                var ui2 = GetNode<Control>("/root/Main/Interface");
                 if (ui2 is not null)
                 {
                     ui2.SetVisible(false);

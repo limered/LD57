@@ -26,7 +26,7 @@ offset_right = 576.0
 offset_bottom = 324.0
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="SplashScreen" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5

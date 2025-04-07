@@ -38,7 +38,7 @@ public partial class DirtGenerator : Node
             }
         }
         
-        _camera = GetNode<Camera2D>("/root/Node2D2/Camera2D");
+        _camera = GetNode<Camera2D>("/root/Main/Camera2D");
     }
 
     private void PrepareDirtGeneration()
