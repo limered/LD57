@@ -20,7 +20,7 @@ public partial class InGameUiNode : Control
         if(_game.State == GameState.Running)
         {
             SetVisible(true);
-            ScoreLabel.Text = "Percent Done: " + ((1.0 - ScoreStore.PercentLeft) * 100).ToString("0.00");
+            ScoreLabel.Text = "Percent Done: " + ((1.0 - ScoreStore.PercentLeft) * 100).ToString("0.00") + "%";
         }
         else
         {
