@@ -41,6 +41,8 @@ public partial class Lazor : Node2D
 	private const float LazorSpriteHeight = 24f;
 
 	private CollisionChecker collisionChecker;
+	
+	[Export] private AudioStream _shootAudio;
 
 	public override void _Ready()
 	{

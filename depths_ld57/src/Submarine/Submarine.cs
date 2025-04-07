@@ -17,6 +17,9 @@ public partial class Submarine : RigidBody2D
 
 	[Export]
 	public float SubmarineLookahead { get; set; } = 10f;
+	
+	private AudioStreamPlayer _audio;
+	[Export] private AudioStream _movementAudio;
 
 	public Vector2I GridPosition
 	{
@@ -32,6 +35,7 @@ public partial class Submarine : RigidBody2D
 	public override void _Ready()
 	{
 		_sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		_audio = GetNode<AudioStreamPlayer>("../Audio");
 		EventBus.Register<MapGeneratedEvent>((evt) =>
 		{
 			var mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
@@ -85,6 +89,7 @@ public partial class Submarine : RigidBody2D
 		{
 			direction = direction.Normalized();
 		}
+		
 		return direction;
 	}
 
@@ -98,6 +103,8 @@ public partial class Submarine : RigidBody2D
 					GD.RandRange(1, 2047),
 					GD.RandRange(1, 2047)
 				);
+				_audio.Stream = _movementAudio;
+				_audio.Play();
 			}
 		}
 	}
