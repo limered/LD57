@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cmvqrg8c53mbr"]
 
-[ext_resource type="PackedScene" uid="uid://bsa2kkcuws55f" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
+[ext_resource type="PackedScene" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
 [ext_resource type="PackedScene" uid="uid://8y0rhkcllrhf" path="res://scenes/submarine.tscn" id="2_0mil4"]
 [ext_resource type="Script" path="res://src/Camera/Follow.cs" id="3_y8mju"]
 [ext_resource type="PackedScene" uid="uid://den6fm531ekmi" path="res://scenes/Interface.tscn" id="4_vrxt4"]
@@ -39,10 +39,10 @@ offset_right = -576.0
 offset_bottom = -324.0
 
 [node name="Tutorial" parent="Camera2D" instance=ExtResource("7_rhnwl")]
+visible = false
 offset_left = -576.0
 offset_top = -324.0
 offset_right = -576.0
 offset_bottom = -324.0
-showTime = 3.0
 
 [node name="Audio" parent="." instance=ExtResource("8_pn4rf")]

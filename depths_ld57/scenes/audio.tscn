@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://bhi5342bo28gs"]
+[gd_scene load_steps=7 format=3 uid="uid://bhi5342bo28gs"]
 
 [ext_resource type="AudioStream" uid="uid://c7seebl2loh5e" path="res://sounds/title_song.mp3" id="1_ecfk7"]
 [ext_resource type="AudioStream" uid="uid://c4blefe4mh6wf" path="res://sounds/Scanglobe-Aqueduct.mp3" id="2_o1k6y"]
-[ext_resource type="AudioStream" uid="uid://dkp0gh7jjtnjr" path="res://sounds/lazer.wav" id="3_1q5v8"]
+[ext_resource type="AudioStream" uid="uid://bodym4jrgj0tn" path="res://sounds/lazer_low.wav" id="3_wk3g0"]
+[ext_resource type="AudioStream" uid="uid://bdsr7bkf681wv" path="res://sounds/dirt-pop.wav" id="4_odkqh"]
+[ext_resource type="AudioStream" uid="uid://ddalsexedvw0t" path="res://sounds/dive-in.wav" id="5_30k6y"]
+[ext_resource type="AudioStream" uid="uid://c0s0e3io1busr" path="res://sounds/dive-out.wav" id="6_apchu"]
 
 [node name="Audio" type="AudioStreamPlayer"]
 stream = ExtResource("1_ecfk7")
@@ -10,8 +13,20 @@ autoplay = true
 
 [node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_o1k6y")
-volume_db = -18.739
+volume_db = -26.047
 
 [node name="LazorAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_1q5v8")
-volume_db = -17.801
+stream = ExtResource("3_wk3g0")
+volume_db = 2.0
+
+[node name="DirtParticleAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_odkqh")
+volume_db = 3.0
+
+[node name="FaceDiveIntoAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_30k6y")
+volume_db = -10.0
+
+[node name="FaceDiveOutOfAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_apchu")
+volume_db = -10.0

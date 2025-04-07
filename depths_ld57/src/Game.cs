@@ -1,4 +1,5 @@
 using System.Threading;
+using depths_ld57.Dirt;
 using depths_ld57.Interface;
 using depths_ld57.MapGeneration;
 using depths_ld57.Utils;
@@ -14,7 +15,10 @@ public partial class Game : Node2D
     private Control _startScreen;
     private FaceDive _faceDive;
     private Tutorial _tutorial;
-    private AudioStreamPlayer _audio;
+    private AudioStreamPlayer _backgroundAudio;
+    private AudioStreamPlayer _dirtPopAudio;
+    private AudioStreamPlayer _diveIntoAudio;
+    private AudioStreamPlayer _diveOutOfAudio;
     public override void _Ready()
     {
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
@@ -29,8 +33,16 @@ public partial class Game : Node2D
             _mapGenerated = true;
         });
         
+		_backgroundAudio = GetNode<AudioStreamPlayer>("/root/Main/Audio/BackgroundAudio");
+		_dirtPopAudio = GetNode<AudioStreamPlayer>("/root/Main/Audio/DirtParticleAudio");
+		_diveIntoAudio = GetNode<AudioStreamPlayer>("/root/Main/Audio/FaceDiveIntoAudio");
+		_diveOutOfAudio = GetNode<AudioStreamPlayer>("/root/Main/Audio/FaceDiveOutOfAudio");
+        
         EventBus.Register<MapGeneratedEvent>(_ => OnMapGenerated());
-		_audio = GetNode<AudioStreamPlayer>("/root/Main/Audio/BackgroundAudio");
+        EventBus.Register<ParticleExplodedEvent>(_ => {
+            _dirtPopAudio.Play();
+        });
+
         GoToState(GameState.StartScreen);
     }
 
@@ -52,7 +64,6 @@ public partial class Game : Node2D
                 GD.Print("Start Screen");
                 _startScreen?.SetVisible(true);
                 _generationThread.Start();
-                
                 break;
             case GameState.IntroAnimation:
                 GD.Print("Intro Animation");
@@ -61,6 +72,7 @@ public partial class Game : Node2D
                 break;
             case GameState.Tutorial:
                 GD.Print("Tutorial");
+                _diveIntoAudio.Play();
                 _tutorial.Start();
                 break;
             case GameState.MapGeneration:
@@ -69,7 +81,7 @@ public partial class Game : Node2D
             case GameState.Running:
                 GD.Print("Running");
                 _tutorial.Hide();
-				_audio.Play();
+				_backgroundAudio.Play();
                 break;
             case GameState.Paused:
                 GD.Print("Paused");
@@ -77,6 +89,7 @@ public partial class Game : Node2D
             case GameState.GameOver:
                 GD.Print("Game Over");
                 _faceDive.PlayOutro();
+                _diveOutOfAudio.Play();
                 break;
         }
         return true;
