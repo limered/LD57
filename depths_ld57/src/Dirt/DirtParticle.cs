@@ -1,3 +1,4 @@
+using depths_ld57.Utils;
 using Godot;
 
 namespace depths_ld57.Dirt;
@@ -50,6 +51,8 @@ public partial class DirtParticle : Area2D
             explodeParticles.Emitting = true;
             AddChild(explodeParticles);
             Sprite?.QueueFree();
+            
+            EventBus.Emit(new ParticleExplodedEvent());
         }
     }
 }
