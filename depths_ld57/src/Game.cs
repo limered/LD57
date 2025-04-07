@@ -8,17 +8,19 @@ namespace depths_ld57;
 
 public partial class Game : Node2D
 {
-   
+
     private MapGenerator _mapGenerator;
     public GameState State { get; private set; }
     private Control _startScreen;
     private FaceDive _faceDive;
     private Tutorial _tutorial;
-	private AudioStreamPlayer _audio;
+    private AudioStreamPlayer _audio;
     public override void _Ready()
     {
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
         _faceDive = GetNode<FaceDive>("/root/Main/Camera2D/FaceDive");
+        _faceDive.OnIntroFinished = () => GetNode<Game>("/root/Game").GoToState(GameState.Tutorial);
+        _faceDive.OnOutroFinished = () => GetNode<Game>("/root/Game").GoToState(GameState.StartScreen);
         _tutorial = GetNode<Tutorial>("/root/Main/Camera2D/Tutorial");
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
         _generationThread = new Thread(_ =>
@@ -50,13 +52,12 @@ public partial class Game : Node2D
                 GD.Print("Start Screen");
                 _startScreen?.SetVisible(true);
                 _generationThread.Start();
+                
                 break;
             case GameState.IntroAnimation:
                 GD.Print("Intro Animation");
                 _startScreen?.SetVisible(false);
-                _faceDive.PlayIntro(() => {
-                    GetNode<Game>("/root/Game").GoToState(GameState.Tutorial);
-                });
+                _faceDive.PlayIntro();
                 break;
             case GameState.Tutorial:
                 GD.Print("Tutorial");
@@ -87,10 +88,10 @@ public partial class Game : Node2D
         {
             EventBus.Emit(new MapGeneratedEvent());
         }
-        
+
         if (Input.IsKeyPressed(Key.N))
         {
-            if(State == GameState.GameOver)
+            if (State == GameState.GameOver)
             {
                 GoToState(GameState.StartScreen);
             }
