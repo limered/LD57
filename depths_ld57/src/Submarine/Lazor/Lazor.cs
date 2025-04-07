@@ -108,7 +108,7 @@ public partial class Lazor : Node2D
 			return;
 
 		//extend lazor length until it hits a wall
-		var step = direction * LazorLength / 100;
+		var step = direction * 10; 
 		var globalOffset = GlobalPosition - Position;
 		for (
 			var currentPos = GlobalPosition;
