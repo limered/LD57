@@ -1,3 +1,4 @@
+using System.Threading;
 using Godot;
 
 namespace depths_ld57.MapGeneration.Steps;
@@ -21,6 +22,7 @@ public class BaseNoiseGenerationStep : IMapGenerationStep
 
     public void Generate(MapGenerationContext ctx)
     {
+        Thread.Sleep(1000);
         var noiseImage = _noiseTexture.GetImage();
         if (noiseImage is null) return;
 		
@@ -30,7 +32,7 @@ public class BaseNoiseGenerationStep : IMapGenerationStep
             {
                 var pixelColor = noiseImage.GetPixel(x, y);
                 var brightness = pixelColor.R;
-
+                
                 ctx.WorkingImage
                     .SetPixel(x, y, brightness > ctx.WallThreshold ? Colors.White : Colors.Black);
             }
