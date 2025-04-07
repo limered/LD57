@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://cmvqrg8c53mbr"]
+[gd_scene load_steps=10 format=3 uid="uid://cmvqrg8c53mbr"]
 
-[ext_resource type="PackedScene" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
+[ext_resource type="PackedScene" uid="uid://bsa2kkcuws55f" path="res://scenes/dirt_generator.tscn" id="1_1x3bw"]
 [ext_resource type="PackedScene" uid="uid://8y0rhkcllrhf" path="res://scenes/submarine.tscn" id="2_0mil4"]
 [ext_resource type="AudioStream" uid="uid://df2ux416lwkj1" path="res://sounds/bubbles_01.mp3" id="3_66bcc"]
 [ext_resource type="Script" path="res://src/Camera/Follow.cs" id="3_y8mju"]

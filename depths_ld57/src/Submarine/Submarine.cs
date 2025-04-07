@@ -103,6 +103,12 @@ public partial class Submarine : RigidBody2D
 					GD.RandRange(1, 2047),
 					GD.RandRange(1, 2047)
 				);
+			}
+			if(key.IsActionPressed("move_up") || 
+				key.IsActionPressed("move_down") || 
+				key.IsActionPressed("move_left") || 
+				key.IsActionPressed("move_right")
+			) {
 				_audio.Stream = _movementAudio;
 				_audio.Play();
 			}
