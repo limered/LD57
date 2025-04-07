@@ -104,8 +104,6 @@ public partial class Lazor : Node2D
 			return;
 		if (direction == Vector2.Zero)
 			return;
-		if (LazorLength <= 0)
-			return;
 
 		//extend lazor length until it hits a wall
 		var step = direction * 10; 
