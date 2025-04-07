@@ -42,6 +42,7 @@ public partial class DirtGenerator : Node
 
     public override void _Process(double delta)
     {
+        if (Engine.GetFramesDrawn() % 4 != 0) return;
         if (_isGenerating && _dirtParticleIndex < _particlePositions.Count)
         {
             for (var i = 0; i < 20 && _dirtParticleIndex < _particlePositions.Count; i++)
