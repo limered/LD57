@@ -6,6 +6,7 @@
 
 [node name="Dirt Particle" type="Area2D" node_paths=PackedStringArray("Sprite", "Collider")]
 script = ExtResource("1_mjp87")
+Health = 2
 Sprite = NodePath("Image")
 Collider = NodePath("CollisionShape2D")
 

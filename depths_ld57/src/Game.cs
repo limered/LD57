@@ -18,7 +18,7 @@ public partial class Game : Node2D
     {
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
         _faceDive = GetNode<FaceDive>("/root/Main/Camera2D/FaceDive");
-        _tutorial = GetNode<Tutorial>("/root/Main/Camera2D/Tutorial");
+        _tutorial = GetNode<Interface.Tutorial>("/root/Main/Camera2D/Tutorial");
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
         _generationThread = new Thread(_ =>
         {
@@ -64,6 +64,7 @@ public partial class Game : Node2D
                 GD.Print("Map Generation");
                 break;
             case GameState.Running:
+                _tutorial.Hide();
                 GD.Print("Running");
 				_audio.Play();
             case GameState.Paused:

@@ -1,22 +1,21 @@
-using depths_ld57;
 using Godot;
-using System;
+
+namespace depths_ld57.Interface;
 
 public partial class Tutorial : Control
 {
 	[Export]
-	public float showTime = 5;
+	public float ShowTime = 5;
 
-    public override void _Ready()
-    {
-        Visible = false;
-    }
+	public override void _Ready()
+	{
+		Visible = false;
+	}
 
 	public void Start()
 	{
 		Visible = true;
-		GetTree().CreateTimer(showTime).Timeout += () => {
-			Visible = false;
+		GetTree().CreateTimer(ShowTime).Timeout += () => {
 			GetNode<Game>("/root/Game").GoToState(GameState.MapGeneration);
 		};
 	}
