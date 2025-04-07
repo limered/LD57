@@ -17,9 +17,8 @@ public class MapGenerationContext
     public Image ColorMap;
     public Image DirtMap;
 
-    public int DirtParticleRadius = 10;
-    public float DirtParticleSpeed = 1.5f;
-    public float DirtParticleCount = 7500;
+    public readonly int DirtParticleRadius = 10;
+    public readonly float DirtParticleCount = 7500;
     public List<Vector2I> FutureDirtPositions = new();
     public List<Vector2I> DirtParticles;
 }

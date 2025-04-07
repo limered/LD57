@@ -14,12 +14,18 @@ public partial class Game : Node2D
     public override void _Ready()
     {
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
-        GoToState(GameState.StartScreen);
+        _generationThread = new Thread(_ =>
+        {
+            _mapGenerator.GenerateMap();
+            _mapGenerated = true;
+        });
         
         EventBus.Register<MapGeneratedEvent>(_ => OnMapGenerated());
+        GoToState(GameState.StartScreen);
     }
 
-    private bool _mapGenerated = false;
+    private bool _mapGenerated;
+    private Thread _generationThread;
 
     private void OnMapGenerated()
     {
@@ -39,15 +45,10 @@ public partial class Game : Node2D
                 {
                     ui1.SetVisible(true);
                 }
+                _generationThread.Start();
                 break;
             case GameState.MapGeneration:
                 GD.Print("Map Generation");
-                var generationThread = new Thread(_ =>
-                {
-                    _mapGenerator.GenerateMap();
-                    _mapGenerated = true;
-                });
-                generationThread.Start();
                 break;
             case GameState.Running:
                 var ui2 = GetNode<Control>("/root/Node2D2/Interface");
