@@ -7,14 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://c0bbq4c8nn3lf" path="res://graphics/heart.png" id="6_5sndk"]
 [ext_resource type="Texture2D" uid="uid://bse3r3hyutn8m" path="res://graphics/lazor_beam.png" id="6_x0wkv"]
 
-[sub_resource type="Curve" id="Curve_60v8e"]
-_data = [Vector2(0.00306749, 0.0770631), 0.0, 0.0, 0, 0, Vector2(0.496932, 0.14017), 0.0, 0.0, 0, 0, Vector2(1, 0.100728), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="Gradient" id="Gradient_kmhym"]
-offsets = PackedFloat32Array(0, 0.540268, 1)
-colors = PackedColorArray(0, 0, 0, 1, 0.85098, 0, 0.756863, 1, 1, 1, 1, 1)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_w23pp"]
 shader = ExtResource("5_mn0j0")
 shader_parameter/beams = 2
@@ -34,6 +26,14 @@ shader_parameter/y_offset = 0.0
 shader_parameter/fixed_edge_size = 0.05
 shader_parameter/noise_scale = Vector2(1, 1)
 
+[sub_resource type="Curve" id="Curve_60v8e"]
+_data = [Vector2(0.00306749, 0.0770631), 0.0, 0.0, 0, 0, Vector2(0.496932, 0.274272), 0.0, 0.0, 0, 0, Vector2(1, 0.100728), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_kmhym"]
+offsets = PackedFloat32Array(0, 0.540268, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 1, 0.752941, 1, 1, 1, 1, 1)
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_347kx"]
 radius = 1.0
 
@@ -45,6 +45,12 @@ lazorHitParticles = NodePath("HitParticles2D")
 lazorBeamParticles = NodePath("BeamParticles2D")
 LazorLength = 10.0
 MaxLazorLength = 3000.0
+
+[node name="LazorShader" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_w23pp")
+texture = ExtResource("6_x0wkv")
+region_rect = Rect2(0, 0, 510, 35)
 
 [node name="BeamParticles2D" type="CPUParticles2D" parent="."]
 position = Vector2(50, 0)
@@ -72,8 +78,8 @@ scale_amount_min = 0.0
 scale_amount_curve = SubResource("Curve_60v8e")
 
 [node name="HitParticles2D" type="CPUParticles2D" parent="."]
-emitting = false
 amount = 40
+explosiveness = 0.07
 texture = ExtResource("4_p2b6l")
 gravity = Vector2(0, 0)
 initial_velocity_max = 100.0
@@ -83,12 +89,6 @@ damping_max = 100.0
 scale_amount_min = 0.0
 scale_amount_curve = SubResource("Curve_60v8e")
 color_ramp = SubResource("Gradient_kmhym")
-
-[node name="LazorShader" type="Sprite2D" parent="."]
-visible = false
-material = SubResource("ShaderMaterial_w23pp")
-texture = ExtResource("6_x0wkv")
-region_rect = Rect2(0, 0, 510, 35)
 
 [node name="LazorTip" type="Area2D" parent="."]
 script = ExtResource("5_54f1g")
