@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using depths_ld57.MapGeneration;
 using depths_ld57.Utils;
 using Godot;
@@ -11,6 +12,11 @@ public partial class DirtGenerator : Node
         .Load<PackedScene>("res://scenes/dirt_particle.tscn");
 
     private readonly List<Texture2D> _dirtParticles = new();
+    
+    private int _dirtParticleIndex;
+    private bool _isGenerating;
+    private List<Vector2I> _particlePositions;
+
     public override void _Ready()
     {
         EventBus.Register<MapGeneratedEvent>(_ => GenerateDirt());
@@ -28,13 +34,26 @@ public partial class DirtGenerator : Node
 
     private void GenerateDirt()
     {
-        var particlePositions = GetNode<MapGenerator>("/root/LevelGenerator").ParticlePositions;
-        foreach (var position in particlePositions)
+        var center = new Vector2I(2048, 2048);
+        _particlePositions = GetNode<MapGenerator>("/root/LevelGenerator").ParticlePositions;
+        _particlePositions = _particlePositions.OrderBy(p => p.DistanceSquaredTo(center)).ToList();
+        _isGenerating = true;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (_isGenerating && _dirtParticleIndex < _particlePositions.Count)
         {
-            var particle = (DirtParticle)_dirtParticleScene.Instantiate();
-            particle.DirtTexture = _dirtParticles[(int)(GD.Randi() % _dirtParticles.Count)];
-            particle.GlobalPosition = position - new Vector2I(2048, 2048);
-            AddChild(particle);
+            for (var i = 0; i < 5 && _dirtParticleIndex < _particlePositions.Count; i++)
+            {
+                var position = _particlePositions[i + _dirtParticleIndex];
+                var particle = (DirtParticle)_dirtParticleScene.Instantiate();
+                particle.DirtTexture = _dirtParticles[(int)(GD.Randi() % _dirtParticles.Count)];
+                particle.GlobalPosition = position - new Vector2I(2048, 2048);
+                AddChild(particle);
+            }
+
+            _dirtParticleIndex += 5;
         }
     }
 }
