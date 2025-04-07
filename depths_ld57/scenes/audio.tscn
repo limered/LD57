@@ -10,6 +10,7 @@ autoplay = true
 
 [node name="BackgroundAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_o1k6y")
+volume_db = -18.739
 
 [node name="LazorAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_1q5v8")
