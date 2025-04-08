@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsva5kpqj1v03"]
+
+[ext_resource type="Script" path="res://src/Dirt/DirtParticle.cs" id="1_mjp87"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b8pwr"]
+
+[node name="Dirt Particle" type="Area2D" node_paths=PackedStringArray("Sprite", "Collider")]
+script = ExtResource("1_mjp87")
+Health = 2
+Sprite = NodePath("Image")
+Collider = NodePath("CollisionShape2D")
+
+[node name="Image" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_b8pwr")

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://5re0nmxpnd72"]
+
+[ext_resource type="Script" path="res://src/MapGeneration/MapGenerator.cs" id="1_onjnx"]
+[ext_resource type="Shader" path="res://src/MapGeneration/background.gdshader" id="2_18810"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_cnfo6"]
+seed = 123
+frequency = 0.015
+fractal_type = 2
+fractal_octaves = 2
+fractal_gain = 0.6
+domain_warp_frequency = 8.0
+domain_warp_fractal_type = 0
+domain_warp_fractal_octaves = 4
+domain_warp_fractal_lacunarity = 2.0
+domain_warp_fractal_gain = 0.6
+metadata/_preview_in_3d_space_ = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kumd7"]
+shader = ExtResource("2_18810")
+shader_parameter/displacement_strength = 0.1
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(1, 0)
+script = ExtResource("1_onjnx")
+MapSize = Vector2i(512, 512)
+Noise = SubResource("FastNoiseLite_cnfo6")
+
+[node name="WorldView" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_kumd7")

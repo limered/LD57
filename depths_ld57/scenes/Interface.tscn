@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://den6fm531ekmi"]
+
+[ext_resource type="Texture2D" uid="uid://cphexury0ksku" path="res://graphics/play_button.png" id="1_3jjjd"]
+[ext_resource type="Script" path="res://src/Interface/InterfaceNode.cs" id="1_41qc6"]
+[ext_resource type="Texture2D" uid="uid://b57034p0xsfvi" path="res://graphics/title_screen.png" id="2_0itlx"]
+
+[node name="Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_41qc6")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -576.0
+offset_top = -324.0
+offset_right = 576.0
+offset_bottom = 324.0
+color = Color(0, 0, 0, 1)
+
+[node name="SplashScreen" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -405.0
+offset_top = -324.0
+offset_right = 405.0
+offset_bottom = 324.0
+texture = ExtResource("2_0itlx")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 243.0
+offset_top = 222.0
+offset_right = 321.0
+offset_bottom = 263.0
+texture_normal = ExtResource("1_3jjjd")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 530.0
+offset_top = 414.0
+offset_right = 627.0
+offset_bottom = 440.0
+text = "Loading..."
+scroll_active = false

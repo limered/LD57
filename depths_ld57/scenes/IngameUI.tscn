@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://c5187y7d8gjvu"]
+
+[ext_resource type="Script" path="res://src/Interface/InGameUiNode.cs" id="1_dcuui"]
+[ext_resource type="Shader" path="res://src/Camera/post_process.gdshader" id="2_a8cc4"]
+[ext_resource type="Shader" path="res://src/Interface/percent.gdshader" id="3_d5qew"]
+[ext_resource type="Shader" path="res://src/Interface/mini_map.gdshader" id="4_uu21a"]
+[ext_resource type="Texture2D" uid="uid://c2abriena4hje" path="res://collisionMap.png" id="5_v14wq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vkf4b"]
+shader = ExtResource("2_a8cc4")
+shader_parameter/distortion_strength = 0.002
+shader_parameter/water_color = Color(0.196078, 0.580392, 0.670588, 0.392157)
+shader_parameter/edge_vignette = 2.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xm7fk"]
+shader = ExtResource("3_d5qew")
+shader_parameter/progress = 0.267
+shader_parameter/radius = 0.38
+shader_parameter/edge_smoothness = 0.01
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wdkvl"]
+shader = ExtResource("4_uu21a")
+shader_parameter/position = Vector2(0.5, 0.5)
+shader_parameter/map = ExtResource("5_v14wq")
+
+[node name="IngameUi" type="Control" node_paths=PackedStringArray("ScoreLabel", "ScoreControl", "MiniMapControl")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dcuui")
+ScoreLabel = NodePath("ScoreLabel")
+ScoreControl = NodePath("Percents")
+MiniMapControl = NodePath("MiniMap")
+
+[node name="PostProcessing" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_vkf4b")
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(28.871, 16.2)
+
+[node name="Percents" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_xm7fk")
+layout_mode = 0
+offset_left = 1.0
+offset_top = 449.0
+offset_right = 201.0
+offset_bottom = 649.0
+
+[node name="ScoreLabel" type="Label" parent="."]
+modulate = Color(0.992157, 0.568627, 0.721569, 1)
+layout_mode = 0
+offset_left = 31.0
+offset_top = 519.0
+offset_right = 171.0
+offset_bottom = 558.0
+theme_override_font_sizes/font_size = 28
+text = "100.00%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="removed" type="Label" parent="."]
+modulate = Color(0.992157, 0.568627, 0.721569, 1)
+layout_mode = 0
+offset_left = 63.0
+offset_top = 564.0
+offset_right = 141.0
+offset_bottom = 587.0
+text = "REMOVED"
+
+[node name="MiniMap" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_wdkvl")
+layout_mode = 0
+offset_left = 961.0
+offset_top = 457.0
+offset_right = 1141.0
+offset_bottom = 637.0
+pivot_offset = Vector2(200, 200)

@@ -1,0 +1,105 @@
+[gd_scene load_steps=11 format=3 uid="uid://dt1chpva5ld57"]
+
+[ext_resource type="Script" path="res://src/Submarine/Lazor/Lazor.cs" id="1_cktub"]
+[ext_resource type="Texture2D" uid="uid://cccnrsfisiotv" path="res://graphics/lazor_particle.png" id="4_p2b6l"]
+[ext_resource type="Script" path="res://src/Submarine/Lazor/LazorTip.cs" id="5_54f1g"]
+[ext_resource type="Shader" path="res://src/Submarine/Lazor/Lazor.gdshader" id="5_mn0j0"]
+[ext_resource type="Texture2D" uid="uid://c0bbq4c8nn3lf" path="res://graphics/heart.png" id="6_5sndk"]
+[ext_resource type="Texture2D" uid="uid://bse3r3hyutn8m" path="res://graphics/lazor_beam.png" id="6_x0wkv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w23pp"]
+shader = ExtResource("5_mn0j0")
+shader_parameter/beams = 2
+shader_parameter/energy = 20.0
+shader_parameter/roughness = 5
+shader_parameter/frequency = 4
+shader_parameter/speed = 3.0
+shader_parameter/thickness = 0.019
+shader_parameter/outline_thickness = 0.047
+shader_parameter/beam_difference = 0.0
+shader_parameter/glow = 0.0
+shader_parameter/outline_glow = 0.0
+shader_parameter/color = Color(0.0901961, 0.372549, 0.827451, 1)
+shader_parameter/outline_color = Color(0, 0.882353, 0.890196, 1)
+shader_parameter/progress = 1.0
+shader_parameter/y_offset = 0.0
+shader_parameter/fixed_edge_size = 0.05
+shader_parameter/noise_scale = Vector2(1, 1)
+
+[sub_resource type="Curve" id="Curve_60v8e"]
+_data = [Vector2(0.00306749, 0.0770631), 0.0, 0.0, 0, 0, Vector2(0.496932, 0.274272), 0.0, 0.0, 0, 0, Vector2(1, 0.100728), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_kmhym"]
+offsets = PackedFloat32Array(0, 0.540268, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 1, 0.752941, 1, 1, 1, 1, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_347kx"]
+radius = 1.0
+
+[node name="Lazor" type="Node2D" node_paths=PackedStringArray("lazorLine", "lazorEmitterParticles", "lazorHitParticles", "lazorBeamParticles")]
+script = ExtResource("1_cktub")
+lazorLine = NodePath("LazorShader")
+lazorEmitterParticles = NodePath("EmitParticles2D")
+lazorHitParticles = NodePath("HitParticles2D")
+lazorBeamParticles = NodePath("BeamParticles2D")
+LazorLength = 10.0
+MaxLazorLength = 3000.0
+
+[node name="LazorShader" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_w23pp")
+texture = ExtResource("6_x0wkv")
+region_rect = Rect2(0, 0, 510, 35)
+
+[node name="BeamParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(50, 0)
+emitting = false
+texture = ExtResource("4_p2b6l")
+emission_shape = 3
+emission_rect_extents = Vector2(50, 10)
+gravity = Vector2(0, 0)
+initial_velocity_min = 14.6
+initial_velocity_max = 14.6
+linear_accel_max = 17.52
+radial_accel_max = 10.22
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_60v8e")
+
+[node name="EmitParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+texture = ExtResource("4_p2b6l")
+gravity = Vector2(0, 0)
+initial_velocity_max = 21.9
+linear_accel_max = 17.52
+radial_accel_max = 10.22
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_60v8e")
+
+[node name="HitParticles2D" type="CPUParticles2D" parent="."]
+amount = 40
+explosiveness = 0.07
+texture = ExtResource("4_p2b6l")
+gravity = Vector2(0, 0)
+initial_velocity_max = 100.0
+radial_accel_max = 10.22
+damping_min = 10.0
+damping_max = 100.0
+scale_amount_min = 0.0
+scale_amount_curve = SubResource("Curve_60v8e")
+color_ramp = SubResource("Gradient_kmhym")
+
+[node name="LazorTip" type="Area2D" parent="."]
+script = ExtResource("5_54f1g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LazorTip"]
+shape = SubResource("CircleShape2D_347kx")
+
+[node name="Debug Sprite" type="Sprite2D" parent="LazorTip"]
+visible = false
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("6_5sndk")
+
+[connection signal="area_shape_entered" from="LazorTip" to="." method="OnTipCollided"]
+[connection signal="area_shape_exited" from="LazorTip" to="." method="OnTipLeave"]
