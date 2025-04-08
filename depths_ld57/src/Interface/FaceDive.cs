@@ -67,9 +67,9 @@ public partial class FaceDive : Control
 	private void FinishedOutro(StringName animName)
 	{
 		DiveIntoVisibility = false;
-		DiveOutOfVisibility = false;
+		DiveOutOfVisibility = true;
 		submarine.Visible = false;
-		
+
 		player.Stop();
 		player.AnimationFinished -= FinishedOutro;
 		OnOutroFinished?.Invoke();

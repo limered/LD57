@@ -24,7 +24,7 @@ public partial class Game : Node2D
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
         _faceDive = GetNode<FaceDive>("/root/Main/Camera2D/FaceDive");
         _faceDive.OnIntroFinished = () => GetNode<Game>("/root/Game").GoToState(GameState.Tutorial);
-        _faceDive.OnOutroFinished = () => GetNode<Game>("/root/Game").GoToState(GameState.StartScreen);
+        // _faceDive.OnOutroFinished = () => GetNode<Game>("/root/Game").GoToState(GameState.GameOver);
         _tutorial = GetNode<Tutorial>("/root/Main/Camera2D/Tutorial");
         _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
         _generationThread = new Thread(_ =>
