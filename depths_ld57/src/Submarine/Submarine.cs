@@ -22,6 +22,8 @@ public partial class Submarine : RigidBody2D
 
 	private AudioStreamPlayer _audio;
 	[Export] private AudioStream _movementAudio;
+	
+	private Game _game;
 
 	public Vector2I GridPosition
 	{
@@ -50,6 +52,8 @@ public partial class Submarine : RigidBody2D
 				);
 			}
 		});
+
+		_game = GetNode<Game>("/root/Game");
 	}
 
 	public override void _Process(double delta)
@@ -59,6 +63,9 @@ public partial class Submarine : RigidBody2D
 			Shake();
 			_sprite.Position = Vector2.Zero;
 		}
+		
+		if(_game.State == GameState.Running)
+			_game.SubmarinePosition = GridPosition;
 	}
 
 	private float _shakeAmount = 3.0f;

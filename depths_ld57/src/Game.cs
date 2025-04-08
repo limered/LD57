@@ -19,6 +19,8 @@ public partial class Game : Node2D
     private AudioStreamPlayer _dirtPopAudio;
     private AudioStreamPlayer _diveIntoAudio;
     private AudioStreamPlayer _diveOutOfAudio;
+
+    public Vector2I SubmarinePosition { get; set; }
     public override void _Ready()
     {
         _startScreen = GetNode<Control>("/root/Main/Camera2D/StartScreen");
