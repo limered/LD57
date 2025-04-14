@@ -20,8 +20,8 @@ public class AddDirtStep : IMapGenerationStep
         ctx.DirtParticles = new List<Vector2I>((int)ctx.DirtParticleCount);
         for (var i = 0; i < ctx.DirtParticleCount; i++)
         {
-            var randomIndex = GD.Randi() % ctx.FutureDirtPositions.Count;
-            var randomPosition = ctx.FutureDirtPositions[(int)randomIndex];
+            var randomIndex = GD.Randi() % ctx.MainAreaWallPoints.Count;
+            var randomPosition = ctx.MainAreaWallPoints[(int)randomIndex];
             ctx.DirtParticles.Add(randomPosition * (int)ctx.UpscaleFactor);
         }
         

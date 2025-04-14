@@ -19,7 +19,7 @@ public class MapGenerationContext
 
     public readonly int DirtParticleRadius = 10;
     public readonly float DirtParticleCount = 7500;
-    public List<Vector2I> FutureDirtPositions = new();
+    public List<Vector2I> MainAreaWallPoints = new();
     public List<Vector2I> DirtParticles;
 }
 
