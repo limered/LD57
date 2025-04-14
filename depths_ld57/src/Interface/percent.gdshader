@@ -19,8 +19,8 @@ void fragment() {
     vec2 center = vec2(0.5);
     vec2 dir = UV - center;
     float dist = length(dir);
-	
-    float angle = atan(dir.y, dir.x) + 1.57; 
+
+    float angle = atan(dir.y, dir.x) + 1.57;
     angle = angle < 0.0 ? angle + 6.28318530718 : angle;
 
     float progress_angle = progress * 6.28318530718;

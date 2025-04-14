@@ -13,18 +13,18 @@ const vec3 black = vec3(0.0);
 void fragment() {
 	float c = texture(map, UV).r;
 	vec3 col;
-	
+
 	if(c < 0.5){
 		col = strong_pink;
 	}else{
 		col = gray;
 	}
-	
+
 	vec2 dir = UV - position;
 	float len = length(dir);
-	
+
 	float dot_strength = (cos(TIME) + 3.0) * 0.2;
 	float red_dot = smoothstep(0.01, 0.05 * dot_strength, len);
-	
+
 	COLOR = mix(vec4(soft_pink, 1.0), vec4(col, 1.0), red_dot);
 }
