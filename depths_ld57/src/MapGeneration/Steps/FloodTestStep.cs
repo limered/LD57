@@ -20,24 +20,23 @@ public class FloodTestStep : IMapGenerationStep
         CopyIntoFloodImage(ctx);
         
         var areas = FillAllAreas();
-        // TODO: Maybe use Area Information later
-        var areasSortedBySize = areas.OrderByDescending(pair => pair.pixels.Count).ToList();
+        areas.SortBySize();
 
-        var areaMap = CalculateAreaToAreaDistances(areasSortedBySize, areas);
-        areaMap = areaMap.Where(a => a.distance < 5).ToList();
+        var areaDistanceMap = CalculateAreaToAreaDistances(areas.OrderedAreas, areas.Areas);
+        areaDistanceMap = areaDistanceMap.Where(a => a.distance < 5).ToList();
 
-        GenerateDoorsBetweenAreas(areaMap, areas, ctx.WorkingImage);
+        GenerateDoorsBetweenAreas(areaDistanceMap, areas.Areas, ctx.WorkingImage);
 
         CopyIntoFloodImage(ctx);
 
-        ctx.FutureDirtPositions = ColorArea(areasSortedBySize.First().start, _floodImage, _mapSize);
+        ctx.MainAreaWallPoints = ColorArea(areas.OrderedAreas.First().StartPoint, _floodImage, _mapSize);
 
         ctx.WorkingImage = _floodImage;
     }
 
-    private List<(Vector2I start, List<Vector2I> pixels)> FillAllAreas()
+    private AreaMap FillAllAreas()
     {
-        var areas = new List<(Vector2I start, List<Vector2I> pixels)>();
+        var areas = new AreaMap();
         for (var y = 0; y < _mapSize.Y; y++)
         for (var x = 0; x < _mapSize.X; x++)
         {
@@ -45,15 +44,15 @@ public class FloodTestStep : IMapGenerationStep
             if (pixel.R > 0.5f) continue;
 
             var coords = ColorArea(new Vector2I(x, y), _floodImage, _mapSize);
-            if (coords.Count > 10) areas.Add((new Vector2I(x, y), coords));
+            if (coords.Count > 10) areas.Add(new Area(){StartPoint = new Vector2I(x, y), Walls = coords});
         }
 
         return areas;
     }
 
     private static List<(int areaA, int areaB, int pixelA, int pixelB, int distance)> CalculateAreaToAreaDistances(
-        List<(Vector2I start, List<Vector2I> pixels)> areasSortedByCount,
-        List<(Vector2I start, List<Vector2I> pixels)> areas)
+        List<Area> areasSortedByCount,
+        List<Area> areas)
     {
         var areaMap = new List<(int areaA, int areaB, int pixelA, int pixelB, int distance)>();
         for (var firstIndex = 0; firstIndex < areasSortedByCount.Count; firstIndex++)
@@ -67,18 +66,17 @@ public class FloodTestStep : IMapGenerationStep
                 var firstPixelIndex = 0;
                 var secondPixelIndex = 0;
                 var minDistanceSquared = int.MaxValue;
-                for (var i = 0; i < firstArea.pixels.Count; i++)
-                for (var j = 0; j < secondArea.pixels.Count; j++)
+                for (var i = 0; i < firstArea.Walls.Count; i++)
+                for (var j = 0; j < secondArea.Walls.Count; j++)
                 {
-                    var firstPoint = firstArea.pixels[i];
-                    var secondPoint = secondArea.pixels[j];
+                    var firstPoint = firstArea.Walls[i];
+                    var secondPoint = secondArea.Walls[j];
                     var distance = firstPoint.DistanceSquaredTo(secondPoint);
-                    if (distance < minDistanceSquared)
-                    {
-                        minDistanceSquared = distance;
-                        firstPixelIndex = i;
-                        secondPixelIndex = j;
-                    }
+                    if (distance >= minDistanceSquared) continue;
+                    
+                    minDistanceSquared = distance;
+                    firstPixelIndex = i;
+                    secondPixelIndex = j;
                 }
 
                 areaMap.Add((
@@ -95,13 +93,13 @@ public class FloodTestStep : IMapGenerationStep
 
     private void GenerateDoorsBetweenAreas(
         List<(int areaA, int areaB, int pixelA, int pixelB, int distance)> areaMap,
-        List<(Vector2I start, List<Vector2I> pixels)> areas, 
+        List<Area> areas, 
         Image targetImage)
     {
         foreach (var area in areaMap)
         {
-            var pointA = areas[area.areaA].pixels[area.pixelA];
-            var pointB = areas[area.areaB].pixels[area.pixelB];
+            var pointA = areas[area.areaA].Walls[area.pixelA];
+            var pointB = areas[area.areaB].Walls[area.pixelB];
             var center = (pointA + pointB) / 2;
             var radius = area.distance + 2;
             var color = new Color(0, 0, 0);

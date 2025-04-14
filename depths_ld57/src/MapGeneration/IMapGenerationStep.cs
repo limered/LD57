@@ -21,6 +21,7 @@ public class MapGenerationContext
     public readonly float DirtParticleCount = 7500;
     public List<Vector2I> MainAreaWallPoints = new();
     public List<Vector2I> DirtParticles;
+    public AreaMap AreaMap = new();
 }
 
 public interface IMapGenerationStep
