@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using depths_ld57;
 using depths_ld57.Dirt;
 using depths_ld57.MapGeneration;
+using depths_ld57.Submarine;
 using depths_ld57.Utils;
 using Godot;
 

@@ -34,13 +34,13 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="Submarine" type="RigidBody2D" node_paths=PackedStringArray("_lazor")]
+[node name="Submarine" type="RigidBody2D" node_paths=PackedStringArray("Lazor")]
 mass = 10.0
 script = ExtResource("1_bx4ym")
+Lazor = NodePath("Lazor")
+_movementAudio = ExtResource("2_bi8lx")
 Acceleration = 1000.0
 WaterDrag = 1.0
-_lazor = NodePath("Lazor")
-_movementAudio = ExtResource("2_bi8lx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.999999, 8)
