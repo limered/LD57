@@ -94,6 +94,7 @@ public partial class Game : Node2D
                 _diveOutOfAudio.Play();
                 break;
         }
+        EventBus.Emit(new GameStateChangedEvent{NewState=newState});
         return true;
     }
 

@@ -32,6 +32,7 @@ public class FloodTestStep : IMapGenerationStep
         ctx.MainAreaWallPoints = ColorArea(areas.OrderedAreas.First().StartPoint, _floodImage, _mapSize);
 
         ctx.WorkingImage = _floodImage;
+        ctx.AreaMap = areas;
     }
 
     private AreaMap FillAllAreas()
@@ -44,7 +45,11 @@ public class FloodTestStep : IMapGenerationStep
             if (pixel.R > 0.5f) continue;
 
             var coords = ColorArea(new Vector2I(x, y), _floodImage, _mapSize);
-            if (coords.Count > 10) areas.Add(new Area(){StartPoint = new Vector2I(x, y), Walls = coords});
+            if (coords.Count > 10) areas.Add(new Area
+            {
+                StartPoint = new Vector2I(x, y), 
+                Walls = coords,
+            });
         }
 
         return areas;
@@ -119,7 +124,7 @@ public class FloodTestStep : IMapGenerationStep
 
     private static List<Vector2I> ColorArea(Vector2I position, Image mask, Vector2I size)
     {
-        var coordinates = new List<Vector2I>();
+        var coords = new List<Vector2I>();
         var stack = new Stack<Vector2I>();
         stack.Push(position);
 
@@ -127,28 +132,41 @@ public class FloodTestStep : IMapGenerationStep
         {
             var pos = stack.Pop();
 
-            if (pos.X < 0 || pos.Y < 0 || pos.X >= size.X || pos.Y >= size.Y)
+            if (IsOutOfBounds(pos))
                 continue;
 
             var color = mask.GetPixel(pos.X, pos.Y);
-
-            if (color.R > 0.5f)
+            if (IsWall(color))
             {
-                coordinates.Add(pos);
+                coords.Add(pos);
                 continue;
             }
-
-            if (color.G > 0.5f) continue;
-
+            if (IsAlreadyFilled(color)) continue;
+            
             mask.SetPixel(pos.X, pos.Y, new Color(color.R, 1f, 0));
-
+            
             stack.Push(new Vector2I(pos.X, pos.Y + 1));
             stack.Push(new Vector2I(pos.X, pos.Y - 1));
             stack.Push(new Vector2I(pos.X + 1, pos.Y));
             stack.Push(new Vector2I(pos.X - 1, pos.Y));
         }
 
-        return coordinates;
+        return coords;
+
+        bool IsOutOfBounds(Vector2I pos)
+        {
+            return pos.X < 0 || pos.Y < 0 || pos.X >= size.X || pos.Y >= size.Y;
+        }
+
+        bool IsAlreadyFilled(Color color)
+        {
+            return color.G > 0.5f;
+        }
+    }
+
+    private static bool IsWall(Color color)
+    {
+        return color.R > 0.5f;
     }
 
     private void CopyIntoFloodImage(MapGenerationContext ctx)

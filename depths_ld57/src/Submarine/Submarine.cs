@@ -21,6 +21,7 @@ public partial class Submarine : RigidBody2D
     [Export] public float Acceleration = 100f;
 
     private CollisionChecker _collisionChecker;
+    private MapGenerator _mapGenerator;
 
     [Export]
     public float WaterDrag
@@ -49,15 +50,14 @@ public partial class Submarine : RigidBody2D
     {
         _sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _audio = GetNode<AudioStreamPlayer>("../Audio");
-        EventBus.Register<MapGeneratedEvent>(_ =>
+        _mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
+        EventBus.Register<GameStateChangedEvent>(evt =>
         {
-            var mapGenerator = GetNode<MapGenerator>("/root/LevelGenerator");
-            _collisionChecker = new CollisionChecker(mapGenerator.CollisionMap);
-            while (IsStuck())
-                GridPosition = new Vector2I(
-                    GD.RandRange(0, 2048),
-                    GD.RandRange(0, 2048)
-                );
+            if(evt.NewState == GameState.Running)
+            {
+                _collisionChecker = new CollisionChecker(_mapGenerator.CollisionMap);
+                GridPosition = _mapGenerator.StartPosition((int)SubmarineRadius);
+            }
         });
 
         _game = GetNode<Game>("/root/Game");
@@ -145,10 +145,7 @@ public partial class Submarine : RigidBody2D
         if (@event is InputEventKey key)
         {
             if (key.IsReleased() && key.Keycode == Key.R)
-                GridPosition = new Vector2I(
-                    GD.RandRange(1, 2047),
-                    GD.RandRange(1, 2047)
-                );
+                GridPosition = _mapGenerator.StartPosition((int)SubmarineRadius);
             if (key.IsActionPressed("move_up") ||
                 key.IsActionPressed("move_down") ||
                 key.IsActionPressed("move_left") ||
@@ -169,7 +166,7 @@ public class CollisionChecker
 
     public CollisionChecker(Image collisionMap)
     {
-        this._collisionMap = collisionMap;
+        _collisionMap = collisionMap;
         Width = collisionMap.GetWidth();
         Height = collisionMap.GetHeight();
     }

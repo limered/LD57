@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using depths_ld57.MapGeneration.Steps;
 using depths_ld57.Utils;
 using Godot;
@@ -25,11 +25,39 @@ public partial class MapGenerator : Node
 
     public Image CollisionMap => _context.CollisionMap;
     public Image ColorMap => _context.ColorMap;
-    public Image DirtMap => _context.DirtMap;
+    private Image DirtMap => _context.DirtMap;
     public List<Vector2I> ParticlePositions => _context.DirtParticles;
 
-    public Action<float> OnProgressChanged;
-    
+    public Vector2I StartPosition(int radius)
+    {
+        GD.Print(_context.AreaMap.OrderedAreas.Count);
+        var largestArea = _context.AreaMap.OrderedAreas.First();
+        var randomWallPoint = largestArea.Walls[(int)(GD.Randi() % largestArea.Walls.Count)] * (int)UpscaleFactor;
+        var point = randomWallPoint + new Vector2I(radius, 0);
+        var tries = 0;
+        while (!CheckArea(point))
+        {
+            point = randomWallPoint + new Vector2I((int)(GD.Randi() % radius * 2), (int)(GD.Randi() % radius * 2));
+            if (tries++ % 10 == 0)
+                randomWallPoint = largestArea.Walls[(int)(GD.Randi() % largestArea.Walls.Count)] * (int)UpscaleFactor;
+        }
+
+        return point;
+
+        bool CheckArea(Vector2I coordinate)
+        {
+            for (var x = -radius; x < radius; x++)
+            for (var y = -radius; y < radius; y++)
+            {
+                var p = coordinate + new Vector2I(x, y);
+                var pixel = _context.CollisionMap.GetPixel(p.X, p.Y);
+                if (pixel.R > 0.5f) return false;
+            }
+
+            return true;
+        }
+    }
+
     public override void _Ready()
     {
         _mapSprite = GetNode<Sprite2D>("WorldView");
@@ -55,8 +83,9 @@ public partial class MapGenerator : Node
         _steps.Add(new UpscaleStep(MapSize));
         _steps.Add(new SplitMapStep(MapSize));
         _steps.Add(new AddDirtStep(MapSize));
-        
-        EventBus.Register<MapGeneratedEvent>(_ => { 
+
+        EventBus.Register<MapGeneratedEvent>(_ =>
+        {
             _texture = ImageTexture.CreateFromImage(_context.ColorMap);
             _mapSprite.Texture = _texture;
         });
@@ -75,9 +104,9 @@ public partial class MapGenerator : Node
         {
             var step = _steps[i];
             step.Generate(_context);
-            OnProgressChanged?.Invoke(i/(_steps.Count - 1f));
             GD.Print(step.GetType().Name + " done");
         }
+
         GD.Print("Map Generated!");
     }
 }
