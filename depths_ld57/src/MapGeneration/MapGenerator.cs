@@ -26,11 +26,11 @@ public partial class MapGenerator : Node
     public Image CollisionMap => _context.CollisionMap;
     public Image ColorMap => _context.ColorMap;
     private Image DirtMap => _context.DirtMap;
+    public Image LevelMap => _context.Levels;
     public List<Vector2I> ParticlePositions => _context.DirtParticles;
 
     public Vector2I StartPosition(int radius)
     {
-        GD.Print(_context.AreaMap.OrderedAreas.Count);
         var largestArea = _context.AreaMap.OrderedAreas.First();
         var randomWallPoint = largestArea.Walls[(int)(GD.Randi() % largestArea.Walls.Count)] * (int)UpscaleFactor;
         var point = randomWallPoint + new Vector2I(radius, 0);
@@ -80,6 +80,7 @@ public partial class MapGenerator : Node
         _steps.Add(new ImageProcessingStep(MapSize));
         _steps.Add(new BrainFormStep(MapSize));
         _steps.Add(new FloodTestStep(MapSize));
+        _steps.Add(new CreateLevelMapStep(MapSize));
         _steps.Add(new UpscaleStep(MapSize));
         _steps.Add(new SplitMapStep(MapSize));
         _steps.Add(new AddDirtStep(MapSize));

@@ -16,6 +16,7 @@ public class MapGenerationContext
     public Image CollisionMap;
     public Image ColorMap;
     public Image DirtMap;
+    public Image Levels;
 
     public readonly int DirtParticleRadius = 10;
     public readonly float DirtParticleCount = 7500;

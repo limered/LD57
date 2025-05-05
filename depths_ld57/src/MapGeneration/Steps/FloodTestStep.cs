@@ -18,7 +18,7 @@ public class FloodTestStep : IMapGenerationStep
     public void Generate(MapGenerationContext ctx)
     {
         CopyIntoFloodImage(ctx);
-        
+
         var areas = FillAllAreas();
         areas.SortBySize();
 
@@ -29,7 +29,7 @@ public class FloodTestStep : IMapGenerationStep
 
         CopyIntoFloodImage(ctx);
 
-        ctx.MainAreaWallPoints = ColorArea(areas.OrderedAreas.First().StartPoint, _floodImage, _mapSize);
+        ctx.MainAreaWallPoints = FillArea(areas.OrderedAreas.First().StartPoint, _floodImage, _mapSize).Item1;
 
         ctx.WorkingImage = _floodImage;
         ctx.AreaMap = areas;
@@ -42,17 +42,63 @@ public class FloodTestStep : IMapGenerationStep
         for (var x = 0; x < _mapSize.X; x++)
         {
             var pixel = _floodImage.GetPixel(x, y);
-            if (pixel.R > 0.5f) continue;
+            if (IsWall(pixel) || IsAlreadyFilled(pixel)) continue;
 
-            var coords = ColorArea(new Vector2I(x, y), _floodImage, _mapSize);
-            if (coords.Count > 10) areas.Add(new Area
+            var (wallCoords, groundCoords) = FillArea(new Vector2I(x, y), _floodImage, _mapSize);
+            if (wallCoords.Count > 10) areas.Add(new Area
             {
-                StartPoint = new Vector2I(x, y), 
-                Walls = coords,
+                StartPoint = new Vector2I(x, y),
+                Walls = wallCoords,
+                Ground = groundCoords,
             });
         }
 
         return areas;
+    }
+
+    private static (List<Vector2I>, List<Vector2I>) FillArea(Vector2I position, Image mask, Vector2I size)
+    {
+        var wallCoords = new List<Vector2I>();
+        var groundCoords = new List<Vector2I>();
+        var stack = new Stack<Vector2I>();
+        stack.Push(position);
+
+        while (stack.Count > 0)
+        {
+            var pos = stack.Pop();
+
+            if (IsOutOfBounds(pos))
+                continue;
+
+            var color = mask.GetPixel(pos.X, pos.Y);
+            if (IsWall(color))
+            {
+                wallCoords.Add(pos);
+                continue;
+            }
+
+            if (IsAlreadyFilled(color)) continue;
+
+            mask.SetPixel(pos.X, pos.Y, new Color(color.R, 1f, 0));
+            groundCoords.Add(pos);
+
+            stack.Push(new Vector2I(pos.X, pos.Y + 1));
+            stack.Push(new Vector2I(pos.X, pos.Y - 1));
+            stack.Push(new Vector2I(pos.X + 1, pos.Y));
+            stack.Push(new Vector2I(pos.X - 1, pos.Y));
+        }
+
+        return (wallCoords, groundCoords);
+
+        bool IsOutOfBounds(Vector2I pos)
+        {
+            return pos.X < 0 || pos.Y < 0 || pos.X >= size.X || pos.Y >= size.Y;
+        }
+    }
+
+    private static bool IsAlreadyFilled(Color color)
+    {
+        return color.G > 0.5f;
     }
 
     private static List<(int areaA, int areaB, int pixelA, int pixelB, int distance)> CalculateAreaToAreaDistances(
@@ -78,7 +124,7 @@ public class FloodTestStep : IMapGenerationStep
                     var secondPoint = secondArea.Walls[j];
                     var distance = firstPoint.DistanceSquaredTo(secondPoint);
                     if (distance >= minDistanceSquared) continue;
-                    
+
                     minDistanceSquared = distance;
                     firstPixelIndex = i;
                     secondPixelIndex = j;
@@ -98,7 +144,7 @@ public class FloodTestStep : IMapGenerationStep
 
     private void GenerateDoorsBetweenAreas(
         List<(int areaA, int areaB, int pixelA, int pixelB, int distance)> areaMap,
-        List<Area> areas, 
+        List<Area> areas,
         Image targetImage)
     {
         foreach (var area in areaMap)
@@ -122,47 +168,6 @@ public class FloodTestStep : IMapGenerationStep
         }
     }
 
-    private static List<Vector2I> ColorArea(Vector2I position, Image mask, Vector2I size)
-    {
-        var coords = new List<Vector2I>();
-        var stack = new Stack<Vector2I>();
-        stack.Push(position);
-
-        while (stack.Count > 0)
-        {
-            var pos = stack.Pop();
-
-            if (IsOutOfBounds(pos))
-                continue;
-
-            var color = mask.GetPixel(pos.X, pos.Y);
-            if (IsWall(color))
-            {
-                coords.Add(pos);
-                continue;
-            }
-            if (IsAlreadyFilled(color)) continue;
-            
-            mask.SetPixel(pos.X, pos.Y, new Color(color.R, 1f, 0));
-            
-            stack.Push(new Vector2I(pos.X, pos.Y + 1));
-            stack.Push(new Vector2I(pos.X, pos.Y - 1));
-            stack.Push(new Vector2I(pos.X + 1, pos.Y));
-            stack.Push(new Vector2I(pos.X - 1, pos.Y));
-        }
-
-        return coords;
-
-        bool IsOutOfBounds(Vector2I pos)
-        {
-            return pos.X < 0 || pos.Y < 0 || pos.X >= size.X || pos.Y >= size.Y;
-        }
-
-        bool IsAlreadyFilled(Color color)
-        {
-            return color.G > 0.5f;
-        }
-    }
 
     private static bool IsWall(Color color)
     {

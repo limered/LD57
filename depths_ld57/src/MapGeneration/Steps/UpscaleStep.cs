@@ -15,5 +15,6 @@ public class UpscaleStep : IMapGenerationStep
     {
         var newSize = _mapSize * (int)ctx.UpscaleFactor;
         ctx.WorkingImage.Resize(newSize.X, newSize.Y, Image.Interpolation.Nearest);
+        ctx.Levels.Resize(newSize.X, newSize.Y, Image.Interpolation.Nearest);
     }
 }

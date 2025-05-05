@@ -72,7 +72,10 @@ public partial class Submarine : RigidBody2D
         }
 
         if (_game.State == GameState.Running)
+        {
             _game.SubmarinePosition = GridPosition;
+            GD.Print(_mapGenerator.LevelMap.GetPixel(GridPosition.X, GridPosition.Y));
+        }
     }
 
     private void Shake()
