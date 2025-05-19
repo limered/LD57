@@ -74,7 +74,8 @@ public partial class Submarine : RigidBody2D
         if (_game.State == GameState.Running)
         {
             _game.SubmarinePosition = GridPosition;
-            GD.Print(_mapGenerator.LevelMap.GetPixel(GridPosition.X, GridPosition.Y));
+            var pixel = _mapGenerator.LevelMap.GetPixel(GridPosition.X, GridPosition.Y);
+            GD.Print(pixel);
         }
     }
 
@@ -108,13 +109,9 @@ public partial class Submarine : RigidBody2D
 
     private bool WouldCollide(Vector2 moveDirection)
     {
-        if (_collisionChecker == null)
-            return false;
-        if (moveDirection == Vector2.Zero) return false;
-
-        if (_collisionChecker.IsCollision(GlobalPosition + moveDirection * (SubmarineRadius + SubmarineLookahead)))
-            return true;
-        return false;
+        return _collisionChecker != null && 
+               moveDirection != Vector2.Zero &&
+               _collisionChecker.IsCollision(GlobalPosition + moveDirection * (SubmarineRadius + SubmarineLookahead));
     }
 
     private bool IsStuck()

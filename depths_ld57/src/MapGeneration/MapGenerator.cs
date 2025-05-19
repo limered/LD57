@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using depths_ld57.MapGeneration.Steps;
@@ -28,6 +29,14 @@ public partial class MapGenerator : Node
     private Image DirtMap => _context.DirtMap;
     public Image LevelMap => _context.Levels;
     public List<Vector2I> ParticlePositions => _context.DirtParticles;
+
+    public Vector2I WorldToMap(Vector2 position) => new(
+        (int)(position.X - MapSize.X * 0.5f * UpscaleFactor),
+        (int)(position.Y - MapSize.Y * 0.5f * UpscaleFactor));
+    
+    public Vector2 MapToWorld(Vector2I position) => new(
+        (int)(position.X + MapSize.X * 0.5f * UpscaleFactor),
+        (int)(position.Y + MapSize.Y * 0.5f * UpscaleFactor));
 
     public Vector2I StartPosition(int radius)
     {

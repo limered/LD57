@@ -8,14 +8,14 @@ public class CreateLevelMapStep : IMapGenerationStep
     private readonly Vector2I _size;
 
     private readonly Color[] _levelColors = {
-        new Color(0, 0, 0, 0), // biggest area (spawn)
-        new Color(0, 0, 0, 1), // only moving enemies
-        new Color(0, 0, 1, 0), // wall enemies
-        new Color(0, 0, 1, 1), // combination
-        new Color(0, 1, 0, 0), // end boss
-        new Color(0, 1, 0, 1), // small boss
-        new Color(0, 1, 1, 0),
-        new Color(0, 1, 1, 1), 
+        new(0, 0, 0, 0), // biggest area (spawn)
+        new(0, 0, 0, 1), // only moving enemies
+        new(0, 0, 1, 0), // wall enemies
+        new(0, 0, 1, 1), // combination
+        new(0, 1, 0, 0), // end boss
+        new(0, 1, 0, 1), // small boss
+        new(0, 1, 1, 0),
+        new(0, 1, 1, 1), 
     };
 
     public CreateLevelMapStep(Vector2I size)
@@ -33,7 +33,7 @@ public class CreateLevelMapStep : IMapGenerationStep
             for (var i = 0; i < area.Ground.Count; i++)
             {
                 var ground = area.Ground[i];
-                var thisLevel = Math.Max(levelCounter, 5);
+                var thisLevel = Math.Min(levelCounter, 5);
                 ctx.Levels.SetPixel(ground.X, ground.Y, _levelColors[thisLevel]);
             }
             
